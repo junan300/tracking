@@ -984,13 +984,95 @@
             color: #718096;
             margin-top: 4px;
         }
+
+        /* Data Protection Modal Styles */
+        .export-check-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .export-check-modal {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            width: 500px;
+            max-width: 90vw;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        .export-check-modal h3 {
+            font-size: 1.5rem;
+            color: #2d3748;
+            margin-bottom: 12px;
+        }
+
+        .export-check-modal p {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .export-check-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .export-check-btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .export-check-btn-primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .export-check-btn:not(.export-check-btn-primary):not(.export-check-btn-cancel) {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+
+        .export-check-btn:not(.export-check-btn-primary):not(.export-check-btn-cancel):hover {
+            background: #cbd5e0;
+        }
+
+        .export-check-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .export-check-btn-cancel {
+            background: #f7fafc;
+            color: #718096;
+            border: 2px solid #e2e8f0;
+        }
+
+        .export-check-btn-cancel:hover {
+            background: #edf2f7;
+            border-color: #cbd5e0;
+        }
     </style>
 </head>
 <body>
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useEffect, useRef } = React;
+        const { useState, useEffect, useRef, useMemo, useCallback } = React;
 
         const DEFAULT_GOAL = [
             { id: 1, name: 'My Goal', emoji: '🎯', color: '#667eea', hours: 0, milestones: [] }
@@ -1487,14 +1569,233 @@
             return false;
         }
 
+        // Data Protection Functions
+        function createBackup() {
+            try {
+                const data = localStorage.getItem('goals');
+                if (!data) return null;
+                
+                const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+                const parsedData = JSON.parse(data);
+                const backupData = {
+                    timestamp: new Date().toISOString(),
+                    version: DATA_VERSION,
+                    schema: DATA_SCHEMA,
+                    data: parsedData
+                };
+                
+                const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `backup-${timestamp}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+                
+                return true;
+            } catch (error) {
+                console.error('Error creating backup:', error);
+                return false;
+            }
+        }
+
+        function confirmWithExportCheck(action, message, requireExport = true) {
+            return new Promise((resolve) => {
+                const modal = document.createElement('div');
+                modal.className = 'export-check-modal-overlay';
+                modal.innerHTML = `
+                    <div class="export-check-modal">
+                        <h3>⚠️ Export Your Data First</h3>
+                        <p>${message}</p>
+                        <p style="color: #f56565; font-weight: 600; margin: 16px 0;">
+                            This action cannot be undone. Make sure you have exported your data!
+                        </p>
+                        <div style="margin: 20px 0;">
+                            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                                <input type="checkbox" id="exportConfirmed" ${!requireExport ? 'checked' : ''}>
+                                <span>I have exported my data and want to proceed</span>
+                            </label>
+                        </div>
+                        <div style="display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap;">
+                            <button class="export-check-btn export-check-btn-primary" id="exportAndProceed">
+                                💾 Export Now & Proceed
+                            </button>
+                            <button class="export-check-btn" id="proceedBtn" ${requireExport ? 'disabled' : ''}>
+                                Proceed
+                            </button>
+                            <button class="export-check-btn export-check-btn-cancel" id="cancelBtn">
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+                
+                const checkbox = modal.querySelector('#exportConfirmed');
+                const exportBtn = modal.querySelector('#exportAndProceed');
+                const proceedBtn = modal.querySelector('#proceedBtn');
+                const cancelBtn = modal.querySelector('#cancelBtn');
+                
+                checkbox.addEventListener('change', (e) => {
+                    proceedBtn.disabled = requireExport && !e.target.checked;
+                });
+                
+                exportBtn.addEventListener('click', () => {
+                    if (createBackup()) {
+                        setTimeout(() => {
+                            document.body.removeChild(modal);
+                            resolve(true);
+                            action();
+                        }, 500);
+                    }
+                });
+                
+                proceedBtn.addEventListener('click', () => {
+                    if (!requireExport || checkbox.checked) {
+                        document.body.removeChild(modal);
+                        resolve(true);
+                        action();
+                    }
+                });
+                
+                cancelBtn.addEventListener('click', () => {
+                    document.body.removeChild(modal);
+                    resolve(false);
+                });
+            });
+        }
+
+        // Define EmojiPicker outside App to prevent recreation on every render
+        const EmojiPickerComponent = React.memo(({ emojiPickerGoalId, overlayClickable, selectedCategory, onEmojiSelect, onCategoryChange }) => {
+            if (emojiPickerGoalId === null) {
+                return null;
+            }
+
+            const filteredEmojis = EMOJI_CATEGORIES[selectedCategory] || [];
+            
+            // Memoize the style object to prevent unnecessary re-renders
+            const overlayStyle = useMemo(() => ({ 
+                pointerEvents: overlayClickable ? 'auto' : 'none' 
+            }), [overlayClickable]);
+
+            return (
+                <div 
+                    className="emoji-picker-overlay"
+                    style={overlayStyle}
+                    onMouseDown={(e) => {
+                        // Prevent clicks on modal from closing it
+                        if (e.target !== e.currentTarget) {
+                            e.stopPropagation();
+                            return;
+                        }
+                        // Ignore clicks immediately after opening
+                        if (!overlayClickable) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            return;
+                        }
+                    }}
+                    onClick={(e) => {
+                        // Check if click is directly on overlay (not on modal content)
+                        if (e.target === e.currentTarget && overlayClickable) {
+                            onEmojiSelect(null); // Pass null to close
+                        }
+                    }}
+                >
+                    <div 
+                        className="emoji-picker-modal"
+                        style={{ pointerEvents: 'auto' }}
+                        onMouseDown={(e) => {
+                            e.stopPropagation();
+                        }}
+                        onClick={(e) => {
+                            // Stop propagation to prevent overlay handler from firing
+                            e.stopPropagation();
+                        }}
+                    >
+                        <div className="emoji-picker-header">
+                            <span className="emoji-picker-title">Choose an Emoji</span>
+                            <button 
+                                className="emoji-picker-close"
+                                onClick={() => {
+                                    onEmojiSelect(null); // Pass null to close
+                                }}
+                            >
+                                ✕
+                            </button>
+                        </div>
+                        <div className="emoji-picker-categories">
+                            {CATEGORY_NAMES.map(category => (
+                                <button
+                                    key={category}
+                                    className={`emoji-category-btn ${selectedCategory === category ? 'active' : ''}`}
+                                    onClick={() => onCategoryChange(category)}
+                                    title={category}
+                                >
+                                    {category}
+                                </button>
+                            ))}
+                        </div>
+                        <div className="emoji-picker-grid">
+                            {filteredEmojis.map((emoji, index) => (
+                                <div
+                                    key={`${emoji}-${index}`}
+                                    className="emoji-picker-item"
+                                    onClick={() => onEmojiSelect(emoji)}
+                                    title={emoji}
+                                >
+                                    {emoji}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+        }, (prevProps, nextProps) => {
+            // Only re-render if emojiPickerGoalId, overlayClickable, or selectedCategory actually changed
+            const emojiChanged = prevProps.emojiPickerGoalId !== nextProps.emojiPickerGoalId;
+            const clickableChanged = prevProps.overlayClickable !== nextProps.overlayClickable;
+            const categoryChanged = prevProps.selectedCategory !== nextProps.selectedCategory;
+            const emojiSelectChanged = prevProps.onEmojiSelect !== nextProps.onEmojiSelect;
+            const categoryChangeChanged = prevProps.onCategoryChange !== nextProps.onCategoryChange;
+            const shouldUpdate = emojiChanged || clickableChanged || categoryChanged || emojiSelectChanged || categoryChangeChanged;
+            
+            return !shouldUpdate; // Return true to skip re-render
+        });
+
         function App() {
             const [appData, setAppData] = useState(() => {
                 try {
                     const saved = localStorage.getItem('goals');
-                    const parsed = saved ? JSON.parse(saved) : null;
+                    if (!saved) {
+                        return ensureDataVersion(null);
+                    }
+                    
+                    const parsed = JSON.parse(saved);
+                    
+                    // Validate data structure
+                    if (!validateImportedData(parsed)) {
+                        console.warn('Data validation failed, attempting recovery...');
+                        // Try to create backup of corrupted data
+                        try {
+                            const backupBlob = new Blob([saved], { type: 'application/json' });
+                            const url = URL.createObjectURL(backupBlob);
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = `recovery-backup-${Date.now()}.json`;
+                            a.click();
+                            URL.revokeObjectURL(url);
+                            alert('Data validation failed. A recovery backup has been downloaded. The app will start with default data.');
+                        } catch (e) {
+                            console.error('Could not create recovery backup:', e);
+                        }
+                    }
+                    
                     return ensureDataVersion(parsed);
                 } catch (error) {
                     console.error('Error loading data:', error);
+                    alert('Error loading data. Please check your browser console and restore from backup if needed.');
                     return ensureDataVersion(null);
                 }
             });
@@ -1510,6 +1811,45 @@
             const [activeTab, setActiveTab] = useState('activities');
             const [emojiPickerGoalId, setEmojiPickerGoalId] = useState(null);
             const [selectedCategory, setSelectedCategory] = useState('😀');
+            const emojiPickerJustOpenedRef = useRef(false);
+            const [overlayClickable, setOverlayClickable] = useState(false);
+            const isOpeningRef = useRef(false);
+            
+            // Prevent closing immediately after opening
+            useEffect(() => {
+                if (emojiPickerGoalId !== null) {
+                    emojiPickerJustOpenedRef.current = true;
+                    // Only update if different to prevent unnecessary re-renders
+                    setOverlayClickable(prev => {
+                        if (prev === false) return prev; // Already false, no update needed
+                        return false;
+                    });
+                    // Use a longer delay to ensure the click event has fully processed
+                    const timer = setTimeout(() => {
+                        emojiPickerJustOpenedRef.current = false;
+                        setOverlayClickable(prev => {
+                            if (prev === true) return prev; // Already true, no update needed
+                            return true;
+                        });
+                    }, 300);
+                    return () => {
+                        clearTimeout(timer);
+                    };
+                } else {
+                    setOverlayClickable(prev => {
+                        if (prev === false) return prev; // Already false, no update needed
+                        return false;
+                    });
+                }
+            }, [emojiPickerGoalId]);
+            
+            // Prevent closing if we're in the process of opening
+            const safeSetEmojiPickerGoalId = (value) => {
+                if (value === null && isOpeningRef.current) {
+                    return;
+                }
+                setEmojiPickerGoalId(value);
+            };
             const [activeTimers, setActiveTimers] = useState({});
             const [calendarView, setCalendarView] = useState('daily');
             const [selectedDate, setSelectedDate] = useState(new Date());
@@ -1628,49 +1968,44 @@
                 setEditingGoalOriginalName('New Goal');
             };
 
-            const deleteGoal = (goalId) => {
-                console.log('deleteGoal called with goalId:', goalId, 'Type:', typeof goalId);
-                console.log('Current goals:', goals.map(g => ({ id: g.id, name: g.name })));
+            const deleteGoal = async (goalId) => {
+                const goal = goals.find(g => g.id === goalId);
+                const goalName = goal ? goal.name : 'this activity';
                 
-                if (confirm('Delete this activity? All progress will be lost.')) {
-                    // Close settings menu first
-                    setOpenSettingsMenuId(null);
-                    
-                    // Use functional update to ensure we have the latest state
-                    setGoals(prevGoals => {
-                        console.log('Previous goals before deletion:', prevGoals.map(g => ({ id: g.id, name: g.name })));
-                        const filtered = prevGoals.filter(g => {
-                            const matches = g.id !== goalId;
-                            if (!matches) {
-                                console.log('Removing goal:', g.id, g.name);
-                            }
-                            return matches;
+                const proceed = await confirmWithExportCheck(
+                    () => {
+                        // Close settings menu first
+                        setOpenSettingsMenuId(null);
+                        
+                        // Use functional update to ensure we have the latest state
+                        setGoals(prevGoals => {
+                            return prevGoals.filter(g => g.id !== goalId);
                         });
-                        console.log('Goals after deletion:', filtered.map(g => ({ id: g.id, name: g.name })));
-                        return filtered;
-                    });
-                    
-                    // Clean up related state
-                    if (activeGoal === goalId) setActiveGoal(null);
-                    if (editingGoalId === goalId) {
-                        setEditingGoalId(null);
-                        setEditingGoalOriginalName(null);
-                    }
-                    if (milestonesModalGoalId === goalId) {
-                        setMilestonesModalGoalId(null);
-                        setEditingMilestones([]);
-                    }
-                    
-                    // Clean up timeInputs
-                    setTimeInputs(prev => {
-                        const newTimeInputs = { ...prev };
-                        delete newTimeInputs[goalId];
-                        return newTimeInputs;
-                    });
-                    
-                    // Clean up refs
-                    delete settingsMenuRefs.current[goalId];
-                }
+                        
+                        // Clean up related state
+                        if (activeGoal === goalId) setActiveGoal(null);
+                        if (editingGoalId === goalId) {
+                            setEditingGoalId(null);
+                            setEditingGoalOriginalName(null);
+                        }
+                        if (milestonesModalGoalId === goalId) {
+                            setMilestonesModalGoalId(null);
+                            setEditingMilestones([]);
+                        }
+                        
+                        // Clean up timeInputs
+                        setTimeInputs(prev => {
+                            const newTimeInputs = { ...prev };
+                            delete newTimeInputs[goalId];
+                            return newTimeInputs;
+                        });
+                        
+                        // Clean up refs
+                        delete settingsMenuRefs.current[goalId];
+                    },
+                    `Delete "${goalName}"? All progress and time entries for this activity will be permanently lost.`,
+                    false // Optional export for single goal deletion
+                );
             };
 
             const openMilestonesModal = (goalId) => {
@@ -1733,86 +2068,47 @@
                 }
             }, [openSettingsMenuId]);
 
-            const getFilteredEmojis = () => {
+            const getFilteredEmojis = useCallback(() => {
                 return EMOJI_CATEGORIES[selectedCategory] || [];
-            };
+            }, [selectedCategory]);
 
-            const handleEmojiSelect = (emoji) => {
+            const handleEmojiSelect = useCallback((emoji) => {
+                // If emoji is null, it means close the picker
+                if (emoji === null) {
+                    safeSetEmojiPickerGoalId(null);
+                    setSelectedCategory('😀');
+                    return;
+                }
+                // Otherwise, select the emoji
                 if (emojiPickerGoalId !== null) {
-                    setGoals(goals.map(g => 
+                    setGoals(prevGoals => prevGoals.map(g => 
                         g.id === emojiPickerGoalId ? { ...g, emoji: emoji } : g
                     ));
                 }
-                setEmojiPickerGoalId(null);
+                safeSetEmojiPickerGoalId(null);
                 setSelectedCategory('😀');
-            };
+            }, [emojiPickerGoalId, safeSetEmojiPickerGoalId]);
+            
+            const handleCategoryChange = useCallback((category) => {
+                setSelectedCategory(category);
+            }, []);
 
-            const EmojiPicker = () => {
-                if (emojiPickerGoalId === null) return null;
+            // Use the component defined outside App
+            const EmojiPicker = EmojiPickerComponent;
 
-                const filteredEmojis = getFilteredEmojis();
-
-                return (
-                    <div 
-                        className="emoji-picker-overlay"
-                        onClick={(e) => {
-                            if (e.target.className === 'emoji-picker-overlay') {
-                                setEmojiPickerGoalId(null);
-                                setSelectedCategory('😀');
-                            }
-                        }}
-                    >
-                        <div className="emoji-picker-modal">
-                            <div className="emoji-picker-header">
-                                <span className="emoji-picker-title">Choose an Emoji</span>
-                                <button 
-                                    className="emoji-picker-close"
-                                    onClick={() => {
-                                        setEmojiPickerGoalId(null);
-                                        setSelectedCategory('😀');
-                                    }}
-                                >
-                                    ✕
-                                </button>
-                            </div>
-                            <div className="emoji-picker-categories">
-                                {CATEGORY_NAMES.map(category => (
-                                    <button
-                                        key={category}
-                                        className={`emoji-category-btn ${selectedCategory === category ? 'active' : ''}`}
-                                        onClick={() => setSelectedCategory(category)}
-                                        title={category}
-                                    >
-                                        {category}
-                                    </button>
-                                ))}
-                            </div>
-                            <div className="emoji-picker-grid">
-                                {filteredEmojis.map((emoji, index) => (
-                                    <div
-                                        key={`${emoji}-${index}`}
-                                        className="emoji-picker-item"
-                                        onClick={() => handleEmojiSelect(emoji)}
-                                        title={emoji}
-                                    >
-                                        {emoji}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
+            const resetData = async () => {
+                const proceed = await confirmWithExportCheck(
+                    () => {
+                        setGoals(goals.map(g => ({ 
+                            ...g, 
+                            hours: 0, 
+                            totalHours: 0,
+                            entries: []
+                        })));
+                    },
+                    'This will reset all your progress and delete all time entries. This action cannot be undone.',
+                    true
                 );
-            };
-
-            const resetData = () => {
-                if (confirm('Reset all progress? This will clear all time entries.')) {
-                    setGoals(goals.map(g => ({ 
-                        ...g, 
-                        hours: 0, 
-                        totalHours: 0,
-                        entries: []
-                    })));
-                }
             };
 
             const exportData = () => {
@@ -1954,6 +2250,17 @@
                 return () => clearInterval(interval);
             }, []);
 
+            // Auto-backup tracking (reminder once per day)
+            useEffect(() => {
+                const lastBackup = localStorage.getItem('lastBackupDate');
+                const today = new Date().toDateString();
+                
+                if (lastBackup !== today) {
+                    // Track that we've checked today (optional: could create silent backup here)
+                    localStorage.setItem('lastBackupDate', today);
+                }
+            }, []);
+
             // Data persistence
             useEffect(() => {
                 const dataToSave = {
@@ -2015,8 +2322,17 @@
                             <button className="control-btn" onClick={resetData}>
                                 🔄 Reset All
                             </button>
+                            <button className="control-btn" onClick={() => {
+                                if (createBackup()) {
+                                    alert('Backup created successfully!');
+                                } else {
+                                    alert('Error creating backup. Please try exporting manually.');
+                                }
+                            }}>
+                                💾 Create Backup
+                            </button>
                             <button className="control-btn" onClick={exportData}>
-                                💾 Export Data
+                                📤 Export Data
                             </button>
                             <button className="control-btn" onClick={importData}>
                                 📥 Import Data
@@ -2033,8 +2349,31 @@
                                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1 }}>
                                             <span 
                                                 className="emoji"
-                                                onClick={() => {
-                                                    setEmojiPickerGoalId(goal.id);
+                                                onMouseDown={(e) => {
+                                                    e.stopPropagation();
+                                                    e.preventDefault();
+                                                }}
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    e.preventDefault();
+                                                    // Prevent any immediate re-renders from closing the picker
+                                                    if (emojiPickerGoalId === goal.id) {
+                                                        return;
+                                                    }
+                                                    if (isOpeningRef.current) {
+                                                        return;
+                                                    }
+                                                    isOpeningRef.current = true;
+                                                    // Use requestAnimationFrame to ensure state update happens after all event handlers and DOM updates
+                                                    requestAnimationFrame(() => {
+                                                        requestAnimationFrame(() => {
+                                                            setEmojiPickerGoalId(goal.id);
+                                                            // Reset the opening flag after a short delay
+                                                            setTimeout(() => {
+                                                                isOpeningRef.current = false;
+                                                            }, 100);
+                                                        });
+                                                    });
                                                 }}
                                                 title="Click to change emoji"
                                             >
@@ -2331,7 +2670,13 @@
                             </div>
                         </div>
                     )}
-                    <EmojiPicker />
+                    <EmojiPicker 
+                        emojiPickerGoalId={emojiPickerGoalId} 
+                        overlayClickable={overlayClickable}
+                        selectedCategory={selectedCategory}
+                        onEmojiSelect={handleEmojiSelect}
+                        onCategoryChange={handleCategoryChange}
+                    />
                 </div>
             );
         }
