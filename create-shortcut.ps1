@@ -5,9 +5,16 @@ $ShortcutPath = Join-Path $DesktopPath "Goal Tracker.lnk"
 
 try {
     $Shortcut = $WshShell.CreateShortcut($ShortcutPath)
-    $Shortcut.TargetPath = Join-Path $PSScriptRoot "launcher.bat"
+    $Shortcut.TargetPath = Join-Path $PSScriptRoot "start-app.bat"
     $Shortcut.WorkingDirectory = $PSScriptRoot
     $Shortcut.Description = "Goal Tracker - Track your time, achieve your goals"
+    
+    # Set icon if it exists
+    $iconPath = Join-Path $PSScriptRoot "icon.ico"
+    if (Test-Path $iconPath) {
+        $Shortcut.IconLocation = $iconPath
+    }
+    
     $Shortcut.Save()
     
     Write-Host "Desktop shortcut created successfully!" -ForegroundColor Green
@@ -17,4 +24,3 @@ try {
     Write-Host "Error creating shortcut: $_" -ForegroundColor Red
     Write-Host "Desktop path: $DesktopPath" -ForegroundColor Yellow
 }
-
