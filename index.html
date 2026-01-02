@@ -751,12 +751,19 @@
 
         function App() {
             const [goals, setGoals] = useState(() => {
-                const saved = localStorage.getItem('goals');
-                const loadedGoals = saved ? JSON.parse(saved) : DEFAULT_GOAL;
-                return loadedGoals.map(g => ({
-                    ...g,
-                    milestones: (g.milestones || []).map(m => typeof m === 'string' ? parseFloat(m) : m).filter(m => !isNaN(m) && m > 0)
-                }));
+                try {
+                    const saved = localStorage.getItem('goals');
+                    const loadedGoals = saved ? JSON.parse(saved) : DEFAULT_GOAL;
+                    return loadedGoals.map(g => ({
+                        ...g,
+                        milestones: Array.isArray(g.milestones) 
+                            ? g.milestones.map(m => typeof m === 'string' ? parseFloat(m) : m).filter(m => !isNaN(m) && m > 0)
+                            : []
+                    }));
+                } catch (error) {
+                    console.error('Error loading goals:', error);
+                    return DEFAULT_GOAL.map(g => ({ ...g, milestones: [] }));
+                }
             });
             
             const [activeGoal, setActiveGoal] = useState(null);
@@ -769,7 +776,7 @@
             const [activeTab, setActiveTab] = useState('activities');
             const [emojiPickerGoalId, setEmojiPickerGoalId] = useState(null);
             const [selectedCategory, setSelectedCategory] = useState('😀');
-            const settingsMenuRef = useRef(null);
+            const settingsMenuRefs = useRef({});
             const chartInstanceRef = useRef(null);
 
             const addTime = (goalId, hours) => {
@@ -802,9 +809,28 @@
             };
 
             const deleteGoal = (goalId) => {
+                console.log('deleteGoal called with goalId:', goalId, 'Type:', typeof goalId);
+                console.log('Current goals:', goals.map(g => ({ id: g.id, name: g.name })));
+                
                 if (confirm('Delete this activity? All progress will be lost.')) {
-                    setGoals(goals.filter(g => g.id !== goalId));
+                    // Close settings menu first
                     setOpenSettingsMenuId(null);
+                    
+                    // Use functional update to ensure we have the latest state
+                    setGoals(prevGoals => {
+                        console.log('Previous goals before deletion:', prevGoals.map(g => ({ id: g.id, name: g.name })));
+                        const filtered = prevGoals.filter(g => {
+                            const matches = g.id !== goalId;
+                            if (!matches) {
+                                console.log('Removing goal:', g.id, g.name);
+                            }
+                            return matches;
+                        });
+                        console.log('Goals after deletion:', filtered.map(g => ({ id: g.id, name: g.name })));
+                        return filtered;
+                    });
+                    
+                    // Clean up related state
                     if (activeGoal === goalId) setActiveGoal(null);
                     if (editingGoalId === goalId) {
                         setEditingGoalId(null);
@@ -814,9 +840,16 @@
                         setMilestonesModalGoalId(null);
                         setEditingMilestones([]);
                     }
-                    const newTimeInputs = { ...timeInputs };
-                    delete newTimeInputs[goalId];
-                    setTimeInputs(newTimeInputs);
+                    
+                    // Clean up timeInputs
+                    setTimeInputs(prev => {
+                        const newTimeInputs = { ...prev };
+                        delete newTimeInputs[goalId];
+                        return newTimeInputs;
+                    });
+                    
+                    // Clean up refs
+                    delete settingsMenuRefs.current[goalId];
                 }
             };
 
@@ -841,6 +874,7 @@
                     ));
                     setMilestonesModalGoalId(null);
                     setEditingMilestones([]);
+                    console.log('Milestones saved:', sortedMilestones);
                 }
             };
 
@@ -865,8 +899,12 @@
 
             useEffect(() => {
                 const handleClickOutside = (event) => {
-                    if (settingsMenuRef.current && !settingsMenuRef.current.contains(event.target)) {
-                        setOpenSettingsMenuId(null);
+                    // Check if click is outside any open settings menu
+                    if (openSettingsMenuId !== null) {
+                        const menuRef = settingsMenuRefs.current[openSettingsMenuId];
+                        if (menuRef && !menuRef.contains(event.target)) {
+                            setOpenSettingsMenuId(null);
+                        }
                     }
                 };
                 if (openSettingsMenuId !== null) {
@@ -1169,7 +1207,16 @@
                                                 </span>
                                             )}
                                         </div>
-                                        <div className="settings-menu-container" ref={settingsMenuRef}>
+                                        <div 
+                                            className="settings-menu-container" 
+                                            ref={(el) => {
+                                                if (el) {
+                                                    settingsMenuRefs.current[goal.id] = el;
+                                                } else {
+                                                    delete settingsMenuRefs.current[goal.id];
+                                                }
+                                            }}
+                                        >
                                             <button 
                                                 className="settings-btn"
                                                 onClick={(e) => {
@@ -1181,16 +1228,25 @@
                                                 ⚙️
                                             </button>
                                             {openSettingsMenuId === goal.id && (
-                                                <div className="settings-menu">
+                                                <div className="settings-menu" onClick={(e) => e.stopPropagation()}>
                                                     <button 
                                                         className="settings-menu-item"
-                                                        onClick={() => openMilestonesModal(goal.id)}
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            openMilestonesModal(goal.id);
+                                                        }}
                                                     >
                                                         ⏱️ Time Milestones
                                                     </button>
                                                     <button 
                                                         className="settings-menu-item delete"
-                                                        onClick={() => deleteGoal(goal.id)}
+                                                        onClick={(e) => {
+                                                            e.stopPropagation();
+                                                            e.preventDefault();
+                                                            const goalIdToDelete = goal.id;
+                                                            console.log('Delete button clicked for goal:', goalIdToDelete);
+                                                            deleteGoal(goalIdToDelete);
+                                                        }}
                                                         title="Delete this activity"
                                                     >
                                                         🗑️ Delete
@@ -1224,14 +1280,14 @@
                                         >
                                             Add Time
                                         </button>
-                                        {(goal.milestones && goal.milestones.length > 0) && (
+                                        {Array.isArray(goal.milestones) && goal.milestones.length > 0 && (
                                             <div className="milestones-stars">
                                                 {goal.milestones.map((milestone, index) => {
-                                                    const milestoneNum = typeof milestone === 'string' ? parseFloat(milestone) : milestone;
-                                                    const reached = !isNaN(milestoneNum) && goal.hours >= milestoneNum;
+                                                    const milestoneNum = typeof milestone === 'string' ? parseFloat(milestone) : Number(milestone);
+                                                    const reached = !isNaN(milestoneNum) && milestoneNum > 0 && goal.hours >= milestoneNum;
                                                     return (
                                                         <span 
-                                                            key={index}
+                                                            key={`${goal.id}-milestone-${index}`}
                                                             className={`milestone-star ${reached ? 'reached' : ''}`}
                                                             title={`${milestoneNum} hours${reached ? ' ✓' : ''}`}
                                                         >
@@ -1287,7 +1343,8 @@
                         <div 
                             className="milestones-modal-overlay"
                             onClick={(e) => {
-                                if (e.target.className === 'milestones-modal-overlay') {
+                                // Close modal if clicking directly on overlay (not on modal content)
+                                if (e.target === e.currentTarget) {
                                     setMilestonesModalGoalId(null);
                                     setEditingMilestones([]);
                                 }
