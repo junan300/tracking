@@ -1,6 +1,6 @@
 {
   "name": "goal-tracker-app",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Beautiful goal tracking desktop app",
   "main": "main.js",
   "scripts": {
