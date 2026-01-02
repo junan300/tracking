@@ -1,0 +1,29 @@
+{
+  "name": "goal-tracker-app",
+  "version": "1.0.0",
+  "description": "Beautiful goal tracking desktop app",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "keywords": ["goals", "productivity", "tracker"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^24.9.1"
+  },
+  "build": {
+    "appId": "com.goaltracker.app",
+    "productName": "Goal Tracker",
+    "win": {
+      "target": "nsis",
+      "icon": "icon.ico"
+    },
+    "files": [
+      "index.html",
+      "main.js"
+    ]
+  }
+}
