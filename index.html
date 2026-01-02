@@ -140,6 +140,93 @@
             margin-bottom: 20px;
         }
 
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .app-header-content {
+            flex: 1;
+        }
+
+        .dropdown-container {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            padding: 10px 16px;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #4a5568;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dropdown-toggle:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        .dropdown-chevron {
+            transition: transform 0.3s ease;
+            font-size: 0.75rem;
+        }
+
+        .dropdown-container.open .dropdown-chevron {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            min-width: 200px;
+            z-index: 1000;
+            display: none;
+            overflow: hidden;
+        }
+
+        .dropdown-menu.open {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 12px 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #4a5568;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dropdown-item:hover {
+            background: #f7fafc;
+            color: #667eea;
+        }
+
+        .dropdown-item:not(:last-child) {
+            border-bottom: 1px solid #e2e8f0;
+        }
+
         .controls {
             display: flex;
             gap: 12px;
@@ -1570,35 +1657,6 @@
         }
 
         // Data Protection Functions
-        function createBackup() {
-            try {
-                const data = localStorage.getItem('goals');
-                if (!data) return null;
-                
-                const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-                const parsedData = JSON.parse(data);
-                const backupData = {
-                    timestamp: new Date().toISOString(),
-                    version: DATA_VERSION,
-                    schema: DATA_SCHEMA,
-                    data: parsedData
-                };
-                
-                const blob = new Blob([JSON.stringify(backupData, null, 2)], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `backup-${timestamp}.json`;
-                a.click();
-                URL.revokeObjectURL(url);
-                
-                return true;
-            } catch (error) {
-                console.error('Error creating backup:', error);
-                return false;
-            }
-        }
-
         function confirmWithExportCheck(action, message, requireExport = true) {
             return new Promise((resolve) => {
                 const modal = document.createElement('div');
@@ -1642,13 +1700,34 @@
                 });
                 
                 exportBtn.addEventListener('click', () => {
-                    if (createBackup()) {
-                        setTimeout(() => {
-                            document.body.removeChild(modal);
-                            resolve(true);
-                            action();
-                        }, 500);
-                    }
+                    // Use exportData instead of createBackup for compatibility
+                    const dataToExport = {
+                        version: DATA_VERSION,
+                        schema: DATA_SCHEMA,
+                        createdAt: new Date().getTime(),
+                        lastModified: Date.now(),
+                        goals: JSON.parse(localStorage.getItem('goals') || '{}').goals || [],
+                        settings: JSON.parse(localStorage.getItem('goals') || '{}').settings || {
+                            timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                            dateFormat: 'YYYY-MM-DD',
+                            defaultView: 'daily'
+                        }
+                    };
+                    const data = JSON.stringify(dataToExport, null, 2);
+                    const blob = new Blob([data], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+                    a.download = `goal-tracker-data-${timestamp}.json`;
+                    a.click();
+                    URL.revokeObjectURL(url);
+                    
+                    setTimeout(() => {
+                        document.body.removeChild(modal);
+                        resolve(true);
+                        action();
+                    }, 500);
                 });
                 
                 proceedBtn.addEventListener('click', () => {
@@ -1814,6 +1893,25 @@
             const emojiPickerJustOpenedRef = useRef(false);
             const [overlayClickable, setOverlayClickable] = useState(false);
             const isOpeningRef = useRef(false);
+            const [dropdownOpen, setDropdownOpen] = useState(false);
+            const dropdownRef = useRef(null);
+            
+            // Close dropdown when clicking outside
+            useEffect(() => {
+                const handleClickOutside = (event) => {
+                    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                        setDropdownOpen(false);
+                    }
+                };
+
+                if (dropdownOpen) {
+                    document.addEventListener('mousedown', handleClickOutside);
+                }
+
+                return () => {
+                    document.removeEventListener('mousedown', handleClickOutside);
+                };
+            }, [dropdownOpen]);
             
             // Prevent closing immediately after opening
             useEffect(() => {
@@ -2099,14 +2197,33 @@
             const resetData = async () => {
                 const proceed = await confirmWithExportCheck(
                     () => {
-                        setGoals(goals.map(g => ({ 
-                            ...g, 
-                            hours: 0, 
-                            totalHours: 0,
-                            entries: []
-                        })));
+                        // Complete reset - remove all activities and data
+                        setGoals([]);
+                        setActiveGoal(null);
+                        setEditingGoalId(null);
+                        setEditingGoalOriginalName(null);
+                        setTimeInputs({});
+                        setOpenSettingsMenuId(null);
+                        setMilestonesModalGoalId(null);
+                        setEditingMilestones([]);
+                        
+                        // Clear localStorage to ensure complete reset
+                        const defaultData = {
+                            version: DATA_VERSION,
+                            schema: DATA_SCHEMA,
+                            createdAt: Date.now(),
+                            lastModified: Date.now(),
+                            goals: [],
+                            settings: {
+                                timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                                dateFormat: 'YYYY-MM-DD',
+                                defaultView: 'daily'
+                            }
+                        };
+                        localStorage.setItem('goals', JSON.stringify(defaultData));
+                        setAppData(defaultData);
                     },
-                    'This will reset all your progress and delete all time entries. This action cannot be undone.',
+                    'This will delete ALL activities, names, progress, and time entries. Everything will be reset to a blank slate. This action cannot be undone.',
                     true
                 );
             };
@@ -2291,8 +2408,50 @@
 
             return (
                 <div className="container">
-                    <h1>⏰ Activity time tracker</h1>
-                    <p className="subtitle">Track your time, achieve your goals</p>
+                    <div className="app-header">
+                        <div className="app-header-content">
+                            <h1>⏰ Activity time tracker</h1>
+                            <p className="subtitle">Track your time, achieve your goals</p>
+                        </div>
+                        <div className={`dropdown-container ${dropdownOpen ? 'open' : ''}`} ref={dropdownRef}>
+                            <button 
+                                className="dropdown-toggle"
+                                onClick={() => setDropdownOpen(!dropdownOpen)}
+                            >
+                                ⚙️ Menu
+                                <span className="dropdown-chevron">▼</span>
+                            </button>
+                            <div className={`dropdown-menu ${dropdownOpen ? 'open' : ''}`}>
+                                <button 
+                                    className="dropdown-item" 
+                                    onClick={() => {
+                                        exportData();
+                                        setDropdownOpen(false);
+                                    }}
+                                >
+                                    📤 Export Data
+                                </button>
+                                <button 
+                                    className="dropdown-item" 
+                                    onClick={() => {
+                                        importData();
+                                        setDropdownOpen(false);
+                                    }}
+                                >
+                                    📥 Import Data
+                                </button>
+                                <button 
+                                    className="dropdown-item" 
+                                    onClick={async () => {
+                                        setDropdownOpen(false);
+                                        await resetData();
+                                    }}
+                                >
+                                    🔄 Reset All
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                     
                     <div className="tabs-container">
                         <div className="tabs">
@@ -2318,27 +2477,6 @@
                     </div>
 
                     <div className={`tab-content ${activeTab === 'activities' ? 'active' : ''}`}>
-                        <div className="controls">
-                            <button className="control-btn" onClick={resetData}>
-                                🔄 Reset All
-                            </button>
-                            <button className="control-btn" onClick={() => {
-                                if (createBackup()) {
-                                    alert('Backup created successfully!');
-                                } else {
-                                    alert('Error creating backup. Please try exporting manually.');
-                                }
-                            }}>
-                                💾 Create Backup
-                            </button>
-                            <button className="control-btn" onClick={exportData}>
-                                📤 Export Data
-                            </button>
-                            <button className="control-btn" onClick={importData}>
-                                📥 Import Data
-                            </button>
-                        </div>
-
                         <div className="goals-grid">
                             {goals.map(goal => (
                                 <div 
