@@ -4,15 +4,30 @@
   "description": "Beautiful goal tracking desktop app",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
-    "build": "electron-builder"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "electron:dev": "cross-env ELECTRON_DEV=true concurrently \"vite\" \"wait-on http://localhost:5173 && cross-env ELECTRON_DEV=true electron .\"",
+    "electron:build": "vite build && electron-builder",
+    "start": "npm run build && electron .",
+    "start:dev": "npm run electron:dev"
   },
   "keywords": ["goals", "productivity", "tracker"],
   "author": "",
   "license": "MIT",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "chart.js": "^4.4.0"
+  },
   "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.1",
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
     "electron": "^28.0.0",
-    "electron-builder": "^24.9.1"
+    "electron-builder": "^24.9.1",
+    "vite": "^5.0.8",
+    "wait-on": "^7.2.0"
   },
   "build": {
     "appId": "com.goaltracker.app",
@@ -22,8 +37,9 @@
       "icon": "icon.ico"
     },
     "files": [
-      "index.html",
-      "main.js"
+      "dist/**/*",
+      "main.js",
+      "package.json"
     ]
   }
 }

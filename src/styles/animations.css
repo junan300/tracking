@@ -1,0 +1,76 @@
+/* Keyframe Animations */
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from { 
+        opacity: 0; 
+    }
+    to { 
+        opacity: 1; 
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animation Applications */
+.settings-menu {
+    animation: slideDown 0.2s ease;
+}
+
+.milestones-modal-overlay {
+    animation: fadeIn 0.2s ease;
+}
+
+.milestones-modal {
+    animation: slideUp 0.3s ease;
+}
+
+.emoji-picker-overlay {
+    animation: fadeIn 0.2s ease;
+}
+
+.emoji-picker-modal {
+    animation: slideUp 0.3s ease;
+}
+
+.export-check-modal-overlay {
+    animation: fadeIn 0.2s ease;
+}
+
+.export-check-modal {
+    animation: slideUp 0.3s ease;
+}
+
+.goal-card {
+    animation: slideIn 0.5s ease;
+}
+
