@@ -166,6 +166,402 @@
         .emoji {
             font-size: 1.5rem;
             margin-right: 8px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .emoji:hover {
+            transform: scale(1.2);
+        }
+
+        .tabs-container {
+            margin-bottom: 30px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            border-bottom: 2px solid #e2e8f0;
+            margin-bottom: 30px;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #718096;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            bottom: -2px;
+        }
+
+        .tab:hover {
+            color: #667eea;
+        }
+
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .goal-name-input {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+            border: 2px solid #667eea;
+            border-radius: 6px;
+            padding: 4px 8px;
+            background: white;
+            flex: 1;
+            max-width: 200px;
+            outline: none;
+            min-width: 100px;
+        }
+
+        .time-input-container {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .time-input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .time-input:focus {
+            border-color: #667eea;
+        }
+
+        .settings-btn {
+            background: none;
+            border: none;
+            font-size: 1.25rem;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #718096;
+        }
+
+        .settings-btn:hover {
+            background: #f7fafc;
+            color: #667eea;
+            transform: rotate(90deg);
+        }
+
+        .settings-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding: 8px;
+            min-width: 160px;
+            z-index: 100;
+            margin-top: 4px;
+            animation: slideDown 0.2s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .settings-menu-item {
+            padding: 10px 12px;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            color: #4a5568;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .settings-menu-item:hover {
+            background: #f7fafc;
+            color: #667eea;
+        }
+
+        .settings-menu-item.delete {
+            color: #f56565;
+        }
+
+        .settings-menu-item.delete:hover {
+            background: #fee;
+            color: #e53e3e;
+        }
+
+        .settings-menu-container {
+            position: relative;
+        }
+
+        .milestones-stars {
+            display: flex;
+            gap: 4px;
+            margin-top: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .milestone-star {
+            font-size: 1.25rem;
+            opacity: 0.3;
+            transition: opacity 0.3s ease;
+        }
+
+        .milestone-star.reached {
+            opacity: 1;
+        }
+
+        .milestones-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .milestones-modal {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            width: 400px;
+            max-width: 90vw;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .milestones-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .milestones-modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .milestones-modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #718096;
+            padding: 4px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .milestones-modal-close:hover {
+            background: #f7fafc;
+            color: #2d3748;
+        }
+
+        .milestones-preset {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .milestone-preset-btn {
+            padding: 10px;
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #4a5568;
+        }
+
+        .milestone-preset-btn:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+            color: #667eea;
+        }
+
+        .milestone-preset-btn.active {
+            background: #667eea;
+            border-color: #667eea;
+            color: white;
+        }
+
+        .milestones-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .milestone-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            background: #f7fafc;
+            border-radius: 6px;
+        }
+
+        .milestone-item-input {
+            flex: 1;
+            padding: 8px;
+            border: 2px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            outline: none;
+        }
+
+        .milestone-item-input:focus {
+            border-color: #667eea;
+        }
+
+        .milestone-remove-btn {
+            background: #f56565;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .milestone-remove-btn:hover {
+            background: #e53e3e;
+        }
+
+        .milestones-add-btn {
+            width: 100%;
+            padding: 10px;
+            background: #e2e8f0;
+            border: 2px solid #cbd5e0;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #4a5568;
+        }
+
+        .milestones-add-btn:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+            color: #667eea;
+        }
+
+        .milestones-save-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .milestones-save-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .add-goal-btn {
+            width: 100%;
+            padding: 16px;
+            background: white;
+            border: 2px dashed #cbd5e0;
+            border-radius: 16px;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #718096;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .add-goal-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .goal-name.empty {
+            color: #cbd5e0;
+            font-style: italic;
         }
 
         @keyframes slideIn {
@@ -182,6 +578,148 @@
         .goal-card {
             animation: slideIn 0.5s ease;
         }
+
+        .emoji-picker-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .emoji-picker-modal {
+            background: white;
+            border-radius: 16px;
+            padding: 16px;
+            width: 360px;
+            height: 420px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        .emoji-picker-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .emoji-picker-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .emoji-picker-close {
+            background: none;
+            border: none;
+            font-size: 1.25rem;
+            cursor: pointer;
+            color: #718096;
+            padding: 4px;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .emoji-picker-close:hover {
+            background: #f7fafc;
+            color: #2d3748;
+        }
+
+        .emoji-picker-categories {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 6px;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .emoji-category-btn {
+            padding: 8px;
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            aspect-ratio: 1;
+        }
+
+        .emoji-category-btn:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .emoji-category-btn.active {
+            background: #667eea;
+            border-color: #667eea;
+        }
+
+        .emoji-picker-grid {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 6px;
+            overflow-y: auto;
+            height: 280px;
+            padding: 4px;
+        }
+
+        .emoji-picker-grid::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .emoji-picker-grid::-webkit-scrollbar-track {
+            background: #f7fafc;
+            border-radius: 3px;
+        }
+
+        .emoji-picker-grid::-webkit-scrollbar-thumb {
+            background: #cbd5e0;
+            border-radius: 3px;
+        }
+
+        .emoji-picker-grid::-webkit-scrollbar-thumb:hover {
+            background: #a0aec0;
+        }
+
+        .emoji-picker-item {
+            font-size: 1.5rem;
+            padding: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            background: transparent;
+            border: 2px solid transparent;
+        }
+
+        .emoji-picker-item:hover {
+            background: #f7fafc;
+            transform: scale(1.2);
+        }
+
+        .emoji-picker-item:active {
+            transform: scale(1.1);
+        }
     </style>
 </head>
 <body>
@@ -190,35 +728,255 @@
     <script type="text/babel">
         const { useState, useEffect, useRef } = React;
 
-        const GOAL_PRESETS = [
-            { id: 1, name: 'Deep Work', emoji: '🎯', color: '#667eea' },
-            { id: 2, name: 'Exercise', emoji: '💪', color: '#48bb78' },
-            { id: 3, name: 'Learning', emoji: '📚', color: '#ed8936' },
-            { id: 4, name: 'Creative', emoji: '🎨', color: '#9f7aea' },
-            { id: 5, name: 'Social', emoji: '🤝', color: '#38b2ac' }
+        const DEFAULT_GOAL = [
+            { id: 1, name: 'My Goal', emoji: '🎯', color: '#667eea', hours: 0, milestones: [] }
         ];
+
+        const DEFAULT_MILESTONES = [40, 100, 500, 1000];
+
+        const COLOR_PALETTE = ['#667eea', '#48bb78', '#ed8936', '#9f7aea', '#38b2ac', '#f56565', '#4299e1', '#ed64a6'];
+
+        const EMOJI_CATEGORIES = {
+            '😀': ['😀', '😃', '😄', '😁', '😆', '😅', '🤣', '😂', '🙂', '🙃', '😉', '😊', '😇', '🥰', '😍', '🤩', '😘', '😗', '😚', '😙', '😋', '😛', '😜', '🤪', '😝', '🤑', '🤗', '🤭', '🤫', '🤔', '🤐', '🤨', '😐', '😑', '😶', '😏', '😒', '🙄', '😬', '🤥', '😌', '😔', '😪', '🤤', '😴', '😷', '🤒', '🤕', '🤢', '🤮', '🤧', '🥵', '🥶', '😵', '😵‍💫', '🤯', '🤠', '🥳', '🥸', '😎', '🤓', '🧐'],
+            '👋': ['👋', '🤚', '🖐', '✋', '🖖', '👌', '🤌', '🤏', '✌️', '🤞', '🤟', '🤘', '🤙', '👍', '👎', '✊', '👊', '🤛', '🤜', '👏', '🙌', '👐', '🤲', '🤝', '🙏', '💪'],
+            '🎯': ['🎯', '🎮', '🎲', '🧩', '🏓', '🏸', '🏒', '🏑', '🏏', '⛳', '🏹', '🎣', '🤿', '🥊', '🥋', '🎽', '🛹', '🛷', '⛸️', '🎿', '🏂', '🧘', '🏄', '🏊', '🤽', '🚣', '🧗', '🚵', '🚴', '🏇'],
+            '🐶': ['🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻', '🐼', '🐨', '🐯', '🦁', '🐮', '🐷', '🐸', '🐵', '🙈', '🙉', '🙊', '🐒', '🐔', '🐧', '🐦', '🦆', '🦅', '🦉', '🦇', '🐺', '🐴', '🦄', '🐝', '🦋', '🐌', '🐞', '🐜', '🦟', '🕷', '🦂', '🐢', '🐍', '🦎', '🐙', '🦑', '🦐', '🦞', '🦀', '🐡', '🐠', '🐟', '🐬', '🐳', '🐋', '🦈', '🐊'],
+            '🍎': ['🍏', '🍎', '🍐', '🍊', '🍋', '🍌', '🍉', '🍇', '🍓', '🫐', '🍈', '🍒', '🍑', '🥭', '🍍', '🥥', '🥝', '🍅', '🍆', '🥑', '🥦', '🥬', '🥒', '🌶', '🌽', '🥕', '🧄', '🧅', '🥔', '🍠', '🥐', '🥯', '🍞', '🧀', '🥚', '🍳', '🥞', '🥓', '🥩', '🍗', '🌭', '🍔', '🍟', '🍕', '🥪', '🌮', '🌯', '🥗', '🍝', '🍜', '🍲', '🍛', '🍣', '🍱', '🍙', '🍚', '🍘', '🍢', '🍡', '🍧', '🍨', '🍦', '🥧', '🧁', '🍰', '🎂', '🍮', '🍭', '🍬', '🍫', '🍿', '🍩', '🍪', '🥜', '☕', '🍵', '🥤', '🧋', '🍺', '🍻', '🥂', '🍷', '🥃'],
+            '❤️': ['❤️', '🧡', '💛', '💚', '💙', '💜', '🖤', '🤍', '🤎', '💔', '❣️', '💕', '💞', '💓', '💗', '💖', '💘', '💝', '💟', '⭐', '🌟', '✨', '💫', '💥', '💢', '💯'],
+            '🚗': ['🚗', '🚕', '🚙', '🚌', '🚎', '🏎', '🚓', '🚑', '🚒', '🚐', '🚚', '🚛', '🚜', '🏍', '🛵', '🚲', '🛴', '🚁', '✈️', '🛩', '🚀', '🚂', '🚃', '🚄', '🚅', '🚆', '🚇', '🚊', '⛵', '🛥', '🛳', '🚢'],
+            '📱': ['⌚', '📱', '📲', '💻', '⌨️', '🖥', '🖨', '📷', '📸', '📹', '🎥', '📞', '☎️', '📺', '📻', '⏰', '🕰', '⌛', '⏳', '💡', '🔦', '🕯', '💰', '💳', '💎', '📚', '📖', '📝', '✏️', '✒️', '🖊', '🖋', '📐', '📏', '✂️', '📌', '📍', '🔖', '📎', '📋', '📊', '📈', '📉', '🗂', '📁', '📂', '🗂', '🗄', '🗃', '🗳', '🗓', '📅', '📆', '🗑', '🔒', '🔓', '🔑', '🔐', '🛡', '🔔', '🔕', '📣', '📢', '💬', '💭', '🗯', '♠️', '♥️', '♦️', '♣️', '🃏', '🎴', '🀄', '🎲', '🎯', '🎳', '🎮', '🎰', '🎸', '🎹', '🎺', '🎻', '🥁', '🎤', '🎧', '🎵', '🎶', '🎼']
+        };
+
+        const CATEGORY_NAMES = Object.keys(EMOJI_CATEGORIES);
 
         function App() {
             const [goals, setGoals] = useState(() => {
                 const saved = localStorage.getItem('goals');
-                return saved ? JSON.parse(saved) : GOAL_PRESETS.map(g => ({ ...g, hours: 0 }));
+                const loadedGoals = saved ? JSON.parse(saved) : DEFAULT_GOAL;
+                return loadedGoals.map(g => ({
+                    ...g,
+                    milestones: (g.milestones || []).map(m => typeof m === 'string' ? parseFloat(m) : m).filter(m => !isNaN(m) && m > 0)
+                }));
             });
             
             const [activeGoal, setActiveGoal] = useState(null);
+            const [editingGoalId, setEditingGoalId] = useState(null);
+            const [editingGoalOriginalName, setEditingGoalOriginalName] = useState(null);
+            const [timeInputs, setTimeInputs] = useState({});
+            const [openSettingsMenuId, setOpenSettingsMenuId] = useState(null);
+            const [milestonesModalGoalId, setMilestonesModalGoalId] = useState(null);
+            const [editingMilestones, setEditingMilestones] = useState([]);
+            const [activeTab, setActiveTab] = useState('activities');
+            const [emojiPickerGoalId, setEmojiPickerGoalId] = useState(null);
+            const [selectedCategory, setSelectedCategory] = useState('😀');
+            const settingsMenuRef = useRef(null);
             const chartInstanceRef = useRef(null);
 
-            const addHour = (goalId) => {
-                setGoals(goals.map(g => 
-                    g.id === goalId ? { ...g, hours: g.hours + 1 } : g
-                ));
-                setActiveGoal(goalId);
-                setTimeout(() => setActiveGoal(null), 300);
+            const addTime = (goalId, hours) => {
+                const timeToAdd = parseFloat(hours) || 0;
+                if (timeToAdd > 0) {
+                    setGoals(goals.map(g => 
+                        g.id === goalId ? { ...g, hours: g.hours + timeToAdd } : g
+                    ));
+                    setActiveGoal(goalId);
+                    setTimeout(() => setActiveGoal(null), 300);
+                    setTimeInputs({ ...timeInputs, [goalId]: '' });
+                }
+            };
+
+            const addGoal = () => {
+                const maxId = goals.length > 0 ? Math.max(...goals.map(g => g.id)) : 0;
+                const newId = maxId + 1;
+                const colorIndex = (newId - 1) % COLOR_PALETTE.length;
+                const newGoal = {
+                    id: newId,
+                    name: 'New Goal',
+                    emoji: '⭐',
+                    color: COLOR_PALETTE[colorIndex],
+                    hours: 0,
+                    milestones: []
+                };
+                setGoals([...goals, newGoal]);
+                setEditingGoalId(newId);
+                setEditingGoalOriginalName('New Goal');
+            };
+
+            const deleteGoal = (goalId) => {
+                if (confirm('Delete this activity? All progress will be lost.')) {
+                    setGoals(goals.filter(g => g.id !== goalId));
+                    setOpenSettingsMenuId(null);
+                    if (activeGoal === goalId) setActiveGoal(null);
+                    if (editingGoalId === goalId) {
+                        setEditingGoalId(null);
+                        setEditingGoalOriginalName(null);
+                    }
+                    if (milestonesModalGoalId === goalId) {
+                        setMilestonesModalGoalId(null);
+                        setEditingMilestones([]);
+                    }
+                    const newTimeInputs = { ...timeInputs };
+                    delete newTimeInputs[goalId];
+                    setTimeInputs(newTimeInputs);
+                }
+            };
+
+            const openMilestonesModal = (goalId) => {
+                const goal = goals.find(g => g.id === goalId);
+                setEditingMilestones(goal?.milestones ? [...goal.milestones] : []);
+                setMilestonesModalGoalId(goalId);
+                setOpenSettingsMenuId(null);
+            };
+
+            const saveMilestones = () => {
+                if (milestonesModalGoalId !== null) {
+                    const sortedMilestones = [...new Set(editingMilestones)]
+                        .map(m => parseFloat(m))
+                        .filter(m => !isNaN(m) && m > 0)
+                        .sort((a, b) => a - b);
+                    
+                    setGoals(goals.map(g => 
+                        g.id === milestonesModalGoalId 
+                            ? { ...g, milestones: sortedMilestones } 
+                            : g
+                    ));
+                    setMilestonesModalGoalId(null);
+                    setEditingMilestones([]);
+                }
+            };
+
+            const setDefaultMilestones = () => {
+                setEditingMilestones([...DEFAULT_MILESTONES]);
+            };
+
+            const addMilestoneInput = () => {
+                setEditingMilestones([...editingMilestones, '']);
+            };
+
+            const updateMilestone = (index, value) => {
+                const newMilestones = [...editingMilestones];
+                newMilestones[index] = value;
+                setEditingMilestones(newMilestones);
+            };
+
+            const removeMilestone = (index) => {
+                const newMilestones = editingMilestones.filter((_, i) => i !== index);
+                setEditingMilestones(newMilestones);
+            };
+
+            useEffect(() => {
+                const handleClickOutside = (event) => {
+                    if (settingsMenuRef.current && !settingsMenuRef.current.contains(event.target)) {
+                        setOpenSettingsMenuId(null);
+                    }
+                };
+                if (openSettingsMenuId !== null) {
+                    document.addEventListener('mousedown', handleClickOutside);
+                    return () => document.removeEventListener('mousedown', handleClickOutside);
+                }
+            }, [openSettingsMenuId]);
+
+            const getFilteredEmojis = () => {
+                return EMOJI_CATEGORIES[selectedCategory] || [];
+            };
+
+            const handleEmojiSelect = (emoji) => {
+                if (emojiPickerGoalId !== null) {
+                    setGoals(goals.map(g => 
+                        g.id === emojiPickerGoalId ? { ...g, emoji: emoji } : g
+                    ));
+                }
+                setEmojiPickerGoalId(null);
+                setSelectedCategory('😀');
+            };
+
+            const EmojiPicker = () => {
+                if (emojiPickerGoalId === null) return null;
+
+                const filteredEmojis = getFilteredEmojis();
+
+                return (
+                    <div 
+                        className="emoji-picker-overlay"
+                        onClick={(e) => {
+                            if (e.target.className === 'emoji-picker-overlay') {
+                                setEmojiPickerGoalId(null);
+                                setSelectedCategory('😀');
+                            }
+                        }}
+                    >
+                        <div className="emoji-picker-modal">
+                            <div className="emoji-picker-header">
+                                <span className="emoji-picker-title">Choose an Emoji</span>
+                                <button 
+                                    className="emoji-picker-close"
+                                    onClick={() => {
+                                        setEmojiPickerGoalId(null);
+                                        setSelectedCategory('😀');
+                                    }}
+                                >
+                                    ✕
+                                </button>
+                            </div>
+                            <div className="emoji-picker-categories">
+                                {CATEGORY_NAMES.map(category => (
+                                    <button
+                                        key={category}
+                                        className={`emoji-category-btn ${selectedCategory === category ? 'active' : ''}`}
+                                        onClick={() => setSelectedCategory(category)}
+                                        title={category}
+                                    >
+                                        {category}
+                                    </button>
+                                ))}
+                            </div>
+                            <div className="emoji-picker-grid">
+                                {filteredEmojis.map((emoji, index) => (
+                                    <div
+                                        key={`${emoji}-${index}`}
+                                        className="emoji-picker-item"
+                                        onClick={() => handleEmojiSelect(emoji)}
+                                        title={emoji}
+                                    >
+                                        {emoji}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                );
             };
 
             const resetData = () => {
                 if (confirm('Reset all progress?')) {
-                    setGoals(GOAL_PRESETS.map(g => ({ ...g, hours: 0 })));
+                    setGoals(goals.map(g => ({ ...g, hours: 0 })));
                 }
+            };
+
+            const importData = () => {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = '.json';
+                input.onchange = (e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                            try {
+                                const imported = JSON.parse(event.target.result);
+                                if (Array.isArray(imported)) {
+                                    setGoals(imported);
+                                    alert('Data imported successfully!');
+                                } else {
+                                    alert('Invalid data format. Expected an array of goals.');
+                                }
+                            } catch (error) {
+                                alert('Error importing data: ' + error.message);
+                            }
+                        };
+                        reader.readAsText(file);
+                    }
+                };
+                input.click();
             };
 
             const updateChart = () => {
@@ -282,6 +1040,16 @@
                 chartInstanceRef.current = newChart;
             };
 
+            // Debug: Log what's in localStorage on initial load
+            useEffect(() => {
+                const saved = localStorage.getItem('goals');
+                console.log('=== APP LOAD DEBUG ===');
+                console.log('localStorage data:', saved);
+                console.log('Parsed goals:', saved ? JSON.parse(saved) : 'No data found');
+                console.log('Current goals state:', goals);
+                console.log('=====================');
+            }, []); // Only run once on mount
+
             useEffect(() => {
                 localStorage.setItem('goals', JSON.stringify(goals));
                 updateChart();
@@ -298,59 +1066,301 @@
 
             return (
                 <div className="container">
-                    <h1>⏰ Goal Tracker</h1>
+                    <h1>⏰ Activity time tracker</h1>
                     <p className="subtitle">Track your time, achieve your goals</p>
                     
-                    <div className="controls">
-                        <button className="control-btn" onClick={resetData}>
-                            🔄 Reset All
-                        </button>
-                        <button className="control-btn" onClick={() => {
-                            const data = JSON.stringify(goals, null, 2);
-                            const blob = new Blob([data], { type: 'application/json' });
-                            const url = URL.createObjectURL(blob);
-                            const a = document.createElement('a');
-                            a.href = url;
-                            a.download = 'goal-tracker-data.json';
-                            a.click();
-                        }}>
-                            💾 Export Data
-                        </button>
+                    <div className="tabs-container">
+                        <div className="tabs">
+                            <button 
+                                className={`tab ${activeTab === 'activities' ? 'active' : ''}`}
+                                onClick={() => setActiveTab('activities')}
+                            >
+                                📊 Activity Time Tracking
+                            </button>
+                            <button 
+                                className={`tab ${activeTab === 'goals' ? 'active' : ''}`}
+                                onClick={() => setActiveTab('goals')}
+                            >
+                                🎯 Goals per Activity
+                            </button>
+                        </div>
                     </div>
 
-                    <div className="goals-grid">
-                        {goals.map(goal => (
-                            <div 
-                                key={goal.id} 
-                                className={`goal-card ${activeGoal === goal.id ? 'active' : ''}`}
-                            >
-                                <div className="goal-header">
-                                    <span className="emoji">{goal.emoji}</span>
-                                    <span className="goal-name">{goal.name}</span>
-                                </div>
-                                <div className="goal-time">{goal.hours}h</div>
-                                <div className="goal-label">Total Time</div>
-                                <button 
-                                    className="add-time-btn"
-                                    onClick={() => addHour(goal.id)}
+                    <div className={`tab-content ${activeTab === 'activities' ? 'active' : ''}`}>
+                        <div className="controls">
+                            <button className="control-btn" onClick={resetData}>
+                                🔄 Reset All
+                            </button>
+                            <button className="control-btn" onClick={() => {
+                                const data = JSON.stringify(goals, null, 2);
+                                const blob = new Blob([data], { type: 'application/json' });
+                                const url = URL.createObjectURL(blob);
+                                const a = document.createElement('a');
+                                a.href = url;
+                                a.download = 'goal-tracker-data.json';
+                                a.click();
+                            }}>
+                                💾 Export Data
+                            </button>
+                            <button className="control-btn" onClick={importData}>
+                                📥 Import Data
+                            </button>
+                        </div>
+
+                        <div className="goals-grid">
+                            {goals.map(goal => (
+                                <div 
+                                    key={goal.id} 
+                                    className={`goal-card ${activeGoal === goal.id ? 'active' : ''}`}
                                 >
-                                    + 1 Hour
+                                    <div className="goal-header">
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1 }}>
+                                            <span 
+                                                className="emoji"
+                                                onClick={() => {
+                                                    setEmojiPickerGoalId(goal.id);
+                                                }}
+                                                title="Click to change emoji"
+                                            >
+                                                {goal.emoji}
+                                            </span>
+                                            {editingGoalId === goal.id ? (
+                                                <input
+                                                    type="text"
+                                                    className="goal-name-input"
+                                                    value={goal.name}
+                                                    placeholder="Activity name..."
+                                                    onChange={(e) => {
+                                                        setGoals(goals.map(g => 
+                                                            g.id === goal.id ? { ...g, name: e.target.value } : g
+                                                        ));
+                                                    }}
+                                                    onBlur={() => {
+                                                        setEditingGoalId(null);
+                                                        setEditingGoalOriginalName(null);
+                                                    }}
+                                                    onKeyDown={(e) => {
+                                                        if (e.key === 'Enter') {
+                                                            setEditingGoalId(null);
+                                                            setEditingGoalOriginalName(null);
+                                                        } else if (e.key === 'Escape') {
+                                                            if (editingGoalOriginalName !== null) {
+                                                                setGoals(goals.map(g => 
+                                                                    g.id === goal.id ? { ...g, name: editingGoalOriginalName } : g
+                                                                ));
+                                                            }
+                                                            setEditingGoalId(null);
+                                                            setEditingGoalOriginalName(null);
+                                                        }
+                                                    }}
+                                                    autoFocus
+                                                />
+                                            ) : (
+                                                <span 
+                                                    className={`goal-name ${!goal.name || goal.name.trim() === '' ? 'empty' : ''}`}
+                                                    onClick={() => {
+                                                        setEditingGoalId(goal.id);
+                                                        setEditingGoalOriginalName(goal.name || '');
+                                                    }}
+                                                    title="Click to edit"
+                                                    style={{ cursor: 'pointer' }}
+                                                >
+                                                    {goal.name && goal.name.trim() !== '' ? goal.name : 'Activity name...'}
+                                                </span>
+                                            )}
+                                        </div>
+                                        <div className="settings-menu-container" ref={settingsMenuRef}>
+                                            <button 
+                                                className="settings-btn"
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setOpenSettingsMenuId(openSettingsMenuId === goal.id ? null : goal.id);
+                                                }}
+                                                title="Settings"
+                                            >
+                                                ⚙️
+                                            </button>
+                                            {openSettingsMenuId === goal.id && (
+                                                <div className="settings-menu">
+                                                    <button 
+                                                        className="settings-menu-item"
+                                                        onClick={() => openMilestonesModal(goal.id)}
+                                                    >
+                                                        ⏱️ Time Milestones
+                                                    </button>
+                                                    <button 
+                                                        className="settings-menu-item delete"
+                                                        onClick={() => deleteGoal(goal.id)}
+                                                        title="Delete this activity"
+                                                    >
+                                                        🗑️ Delete
+                                                    </button>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="goal-time">{goal.hours.toFixed(2)}h</div>
+                                    <div className="goal-label">Total Time</div>
+                                    <div className="time-input-container">
+                                        <input
+                                            type="number"
+                                            className="time-input"
+                                            placeholder="Hours (e.g., 1.5)"
+                                            min="0"
+                                            step="0.25"
+                                            value={timeInputs[goal.id] || ''}
+                                            onChange={(e) => {
+                                                setTimeInputs({ ...timeInputs, [goal.id]: e.target.value });
+                                            }}
+                                            onKeyDown={(e) => {
+                                                if (e.key === 'Enter') {
+                                                    addTime(goal.id, timeInputs[goal.id] || '0');
+                                                }
+                                            }}
+                                        />
+                                        <button 
+                                            className="add-time-btn"
+                                            onClick={() => addTime(goal.id, timeInputs[goal.id] || '0')}
+                                        >
+                                            Add Time
+                                        </button>
+                                        {(goal.milestones && goal.milestones.length > 0) && (
+                                            <div className="milestones-stars">
+                                                {goal.milestones.map((milestone, index) => {
+                                                    const milestoneNum = typeof milestone === 'string' ? parseFloat(milestone) : milestone;
+                                                    const reached = !isNaN(milestoneNum) && goal.hours >= milestoneNum;
+                                                    return (
+                                                        <span 
+                                                            key={index}
+                                                            className={`milestone-star ${reached ? 'reached' : ''}`}
+                                                            title={`${milestoneNum} hours${reached ? ' ✓' : ''}`}
+                                                        >
+                                                            ⭐
+                                                        </span>
+                                                    );
+                                                })}
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            ))}
+                            <div className="add-goal-btn" onClick={addGoal}>
+                                ➕ Add Goal
+                            </div>
+                        </div>
+
+                        <div className="chart-container">
+                            <h2 className="chart-title">📊 Time Distribution</h2>
+                            <div style={{ maxWidth: '500px', margin: '0 auto' }}>
+                                <canvas id="progressChart"></canvas>
+                            </div>
+                            {totalHours > 0 && (
+                                <div style={{ textAlign: 'center', marginTop: '20px', color: '#718096' }}>
+                                    Total tracked: <strong style={{ color: '#667eea' }}>{totalHours.toFixed(2)} hours</strong>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className={`tab-content ${activeTab === 'goals' ? 'active' : ''}`}>
+                        <div style={{ textAlign: 'center', padding: '60px 20px', color: '#718096' }}>
+                            <h2 style={{ fontSize: '1.5rem', marginBottom: '16px', color: '#2d3748' }}>🎯 Goals per Activity</h2>
+                            <p style={{ marginBottom: '32px' }}>Set specific goals for each activity and track your progress</p>
+                            <div style={{ 
+                                background: '#f7fafc', 
+                                padding: '40px', 
+                                borderRadius: '16px',
+                                maxWidth: '600px',
+                                margin: '0 auto'
+                            }}>
+                                <p style={{ fontSize: '1rem', lineHeight: '1.6' }}>
+                                    This feature allows you to set goals for each activity and track the time spent towards achieving those goals.
+                                </p>
+                                <p style={{ fontSize: '0.875rem', marginTop: '20px', color: '#a0aec0' }}>
+                                    Coming soon: Goal management for each activity
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {milestonesModalGoalId !== null && (
+                        <div 
+                            className="milestones-modal-overlay"
+                            onClick={(e) => {
+                                if (e.target.className === 'milestones-modal-overlay') {
+                                    setMilestonesModalGoalId(null);
+                                    setEditingMilestones([]);
+                                }
+                            }}
+                        >
+                            <div className="milestones-modal">
+                                <div className="milestones-modal-header">
+                                    <h3 className="milestones-modal-title">Time Milestones</h3>
+                                    <button 
+                                        className="milestones-modal-close"
+                                        onClick={() => {
+                                            setMilestonesModalGoalId(null);
+                                            setEditingMilestones([]);
+                                        }}
+                                    >
+                                        ✕
+                                    </button>
+                                </div>
+                                <div className="milestones-preset">
+                                    <button 
+                                        className={`milestone-preset-btn ${(() => {
+                                            const sorted = [...editingMilestones].map(m => parseFloat(m)).filter(m => !isNaN(m)).sort((a,b) => a-b);
+                                            return JSON.stringify(sorted) === JSON.stringify(DEFAULT_MILESTONES);
+                                        })() ? 'active' : ''}`}
+                                        onClick={setDefaultMilestones}
+                                    >
+                                        40h - 100h - 500h - 1k h
+                                    </button>
+                                    <button 
+                                        className={`milestone-preset-btn ${editingMilestones.length === 0 ? 'active' : ''}`}
+                                        onClick={() => setEditingMilestones([])}
+                                    >
+                                        Clear All
+                                    </button>
+                                </div>
+                                <div className="milestones-list">
+                                    {editingMilestones.map((milestone, index) => (
+                                        <div key={index} className="milestone-item">
+                                            <input
+                                                type="number"
+                                                className="milestone-item-input"
+                                                placeholder="Hours (e.g., 100)"
+                                                min="0"
+                                                step="1"
+                                                value={milestone}
+                                                onChange={(e) => updateMilestone(index, e.target.value)}
+                                            />
+                                            <button 
+                                                className="milestone-remove-btn"
+                                                onClick={() => removeMilestone(index)}
+                                            >
+                                                Remove
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                                <button 
+                                    className="milestones-add-btn"
+                                    onClick={addMilestoneInput}
+                                >
+                                    ➕ Add Milestone
+                                </button>
+                                <button 
+                                    className="milestones-save-btn"
+                                    onClick={saveMilestones}
+                                    style={{ marginTop: '12px' }}
+                                >
+                                    Save Milestones
                                 </button>
                             </div>
-                        ))}
-                    </div>
-
-                    <div className="chart-container">
-                        <h2 className="chart-title">📊 Time Distribution</h2>
-                        <div style={{ maxWidth: '500px', margin: '0 auto' }}>
-                            <canvas id="progressChart"></canvas>
                         </div>
-                        {totalHours > 0 && (
-                            <div style={{ textAlign: 'center', marginTop: '20px', color: '#718096' }}>
-                                Total tracked: <strong style={{ color: '#667eea' }}>{totalHours} hours</strong>
-                            </div>
-                        )}
-                    </div>
+                    )}
+                    <EmojiPicker />
                 </div>
             );
         }
