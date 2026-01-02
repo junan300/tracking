@@ -720,6 +720,270 @@
         .emoji-picker-item:active {
             transform: scale(1.1);
         }
+
+        /* Timer Styles */
+        .timer-display {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #667eea;
+            margin: 12px 0;
+            text-align: center;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .timer-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .timer-btn.start {
+            background: #48bb78;
+            color: white;
+        }
+
+        .timer-btn.start:hover {
+            background: #38a169;
+        }
+
+        .timer-btn.stop {
+            background: #f56565;
+            color: white;
+        }
+
+        .timer-btn.stop:hover {
+            background: #e53e3e;
+        }
+
+        /* Calendar Styles */
+        .calendar-container {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .calendar-nav {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .calendar-nav-btn {
+            padding: 8px 16px;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #4a5568;
+        }
+
+        .calendar-nav-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        .calendar-view-switcher {
+            display: flex;
+            gap: 8px;
+        }
+
+        .view-btn {
+            padding: 8px 16px;
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #4a5568;
+        }
+
+        .view-btn.active {
+            background: #667eea;
+            border-color: #667eea;
+            color: white;
+        }
+
+        .view-btn:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        .view-btn.active:hover {
+            color: white;
+        }
+
+        .calendar-grid {
+            display: grid;
+            gap: 8px;
+        }
+
+        .calendar-grid.daily {
+            grid-template-columns: 1fr;
+        }
+
+        .calendar-grid.weekly {
+            grid-template-columns: repeat(7, 1fr);
+        }
+
+        .calendar-grid.monthly {
+            grid-template-columns: repeat(7, 1fr);
+        }
+
+        .calendar-day {
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px;
+            min-height: 100px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .calendar-day:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .calendar-day.today {
+            border-color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .calendar-day-header {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 8px;
+            font-size: 0.875rem;
+        }
+
+        .calendar-day-number {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 8px;
+        }
+
+        .calendar-day-entries {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .calendar-entry {
+            font-size: 0.75rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: white;
+            font-weight: 600;
+        }
+
+        .calendar-entry-list {
+            margin-top: 24px;
+        }
+
+        .entry-item {
+            background: #f7fafc;
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .entry-item-info {
+            flex: 1;
+        }
+
+        .entry-item-time {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .entry-item-date {
+            font-size: 0.875rem;
+            color: #718096;
+            margin-top: 4px;
+        }
+
+        .entry-item-source {
+            font-size: 0.75rem;
+            color: #a0aec0;
+            margin-top: 4px;
+        }
+
+        .entry-item-delete {
+            background: #f56565;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .entry-item-delete:hover {
+            background: #e53e3e;
+        }
+
+        .calendar-empty {
+            text-align: center;
+            padding: 40px;
+            color: #a0aec0;
+        }
+
+        .calendar-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: #f7fafc;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #718096;
+            margin-top: 4px;
+        }
     </style>
 </head>
 <body>
@@ -749,23 +1013,493 @@
 
         const CATEGORY_NAMES = Object.keys(EMOJI_CATEGORIES);
 
+        // Calendar View Component
+        function CalendarView({ goals, calendarView, setCalendarView, selectedDate, setSelectedDate, deleteTimeEntry }) {
+            const allEntries = goals.flatMap(goal => 
+                (goal.entries || []).map(entry => ({ ...entry, goalId: goal.id, goalName: goal.name, goalColor: goal.color, goalEmoji: goal.emoji }))
+            ).sort((a, b) => b.timestamp - a.timestamp);
+
+            const getFilteredEntries = () => {
+                let startDate, endDate;
+                if (calendarView === 'daily') {
+                    startDate = new Date(selectedDate);
+                    startDate.setHours(0, 0, 0, 0);
+                    endDate = new Date(selectedDate);
+                    endDate.setHours(23, 59, 59, 999);
+                } else if (calendarView === 'weekly') {
+                    const range = getWeekRange(selectedDate);
+                    startDate = range.start;
+                    endDate = range.end;
+                } else {
+                    const range = getMonthRange(selectedDate);
+                    startDate = range.start;
+                    endDate = range.end;
+                }
+                return getEntriesForDateRange(allEntries, startDate, endDate);
+            };
+
+            const filteredEntries = getFilteredEntries();
+            const groupedEntries = groupEntriesByDate(filteredEntries);
+            const totalHours = filteredEntries.reduce((sum, e) => sum + (e.hours || 0), 0);
+
+            const navigateDate = (direction) => {
+                const newDate = new Date(selectedDate);
+                if (calendarView === 'daily') {
+                    newDate.setDate(newDate.getDate() + direction);
+                } else if (calendarView === 'weekly') {
+                    newDate.setDate(newDate.getDate() + (direction * 7));
+                } else {
+                    newDate.setMonth(newDate.getMonth() + direction);
+                }
+                setSelectedDate(newDate);
+            };
+
+            const goToToday = () => {
+                setSelectedDate(new Date());
+            };
+
+            const renderDailyView = () => {
+                const dayEntries = filteredEntries;
+                return (
+                    <div>
+                        <div className="calendar-stats">
+                            <div className="stat-card">
+                                <div className="stat-value">{totalHours.toFixed(2)}</div>
+                                <div className="stat-label">Total Hours</div>
+                            </div>
+                            <div className="stat-card">
+                                <div className="stat-value">{dayEntries.length}</div>
+                                <div className="stat-label">Entries</div>
+                            </div>
+                            <div className="stat-card">
+                                <div className="stat-value">{dayEntries.filter(e => e.source === 'timer').length}</div>
+                                <div className="stat-label">Timer Sessions</div>
+                            </div>
+                        </div>
+                        <div className="calendar-entry-list">
+                            {dayEntries.length > 0 ? (
+                                dayEntries.map(entry => (
+                                    <div key={entry.id} className="entry-item">
+                                        <div className="entry-item-info">
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                                <span>{entry.goalEmoji}</span>
+                                                <span style={{ fontWeight: 600, color: '#2d3748' }}>{entry.goalName}</span>
+                                            </div>
+                                            <div className="entry-item-time">{entry.hours.toFixed(2)}h</div>
+                                            <div className="entry-item-date">
+                                                {new Date(entry.timestamp).toLocaleTimeString('en-US', { 
+                                                    hour: '2-digit', 
+                                                    minute: '2-digit' 
+                                                })}
+                                            </div>
+                                            <div className="entry-item-source">
+                                                {entry.source === 'timer' ? '⏱️ Timer' : '✏️ Manual'}
+                                            </div>
+                                        </div>
+                                        <button 
+                                            className="entry-item-delete"
+                                            onClick={() => deleteTimeEntry(entry.goalId, entry.id)}
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
+                                ))
+                            ) : (
+                                <div className="calendar-empty">No entries for this day</div>
+                            )}
+                        </div>
+                    </div>
+                );
+            };
+
+            const renderWeeklyView = () => {
+                const weekRange = getWeekRange(selectedDate);
+                const days = [];
+                for (let d = new Date(weekRange.start); d <= weekRange.end; d.setDate(d.getDate() + 1)) {
+                    days.push(new Date(d));
+                }
+
+                return (
+                    <div>
+                        <div className="calendar-stats">
+                            <div className="stat-card">
+                                <div className="stat-value">{totalHours.toFixed(2)}</div>
+                                <div className="stat-label">Total Hours</div>
+                            </div>
+                            <div className="stat-card">
+                                <div className="stat-value">{filteredEntries.length}</div>
+                                <div className="stat-label">Entries</div>
+                            </div>
+                        </div>
+                        <div className="calendar-grid weekly">
+                            {days.map((day, idx) => {
+                                const dayEntries = getEntriesForDateRange(allEntries, day, day);
+                                const dayTotal = dayEntries.reduce((sum, e) => sum + (e.hours || 0), 0);
+                                const isToday = formatDate(day) === formatDate(new Date());
+                                
+                                return (
+                                    <div 
+                                        key={idx} 
+                                        className={`calendar-day ${isToday ? 'today' : ''}`}
+                                        onClick={() => {
+                                            setSelectedDate(day);
+                                            setCalendarView('daily');
+                                        }}
+                                    >
+                                        <div className="calendar-day-header">
+                                            {day.toLocaleDateString('en-US', { weekday: 'short' })}
+                                        </div>
+                                        <div className="calendar-day-number">{day.getDate()}</div>
+                                        <div className="calendar-day-entries">
+                                            {dayEntries.slice(0, 3).map(entry => (
+                                                <div 
+                                                    key={entry.id}
+                                                    className="calendar-entry"
+                                                    style={{ backgroundColor: entry.goalColor }}
+                                                >
+                                                    {entry.goalEmoji} {entry.hours.toFixed(1)}h
+                                                </div>
+                                            ))}
+                                            {dayEntries.length > 3 && (
+                                                <div style={{ fontSize: '0.75rem', color: '#718096', marginTop: '4px' }}>
+                                                    +{dayEntries.length - 3} more
+                                                </div>
+                                            )}
+                                        </div>
+                                        {dayTotal > 0 && (
+                                            <div style={{ marginTop: '8px', fontWeight: 600, color: '#667eea' }}>
+                                                {dayTotal.toFixed(1)}h
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                );
+            };
+
+            const renderMonthlyView = () => {
+                const monthRange = getMonthRange(selectedDate);
+                const firstDay = new Date(monthRange.start);
+                const lastDay = new Date(monthRange.end);
+                const startDate = new Date(firstDay);
+                startDate.setDate(startDate.getDate() - startDate.getDay()); // Start from Sunday
+                
+                const days = [];
+                const current = new Date(startDate);
+                for (let i = 0; i < 42; i++) { // 6 weeks * 7 days
+                    days.push(new Date(current));
+                    current.setDate(current.getDate() + 1);
+                }
+
+                const weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+                return (
+                    <div>
+                        <div className="calendar-stats">
+                            <div className="stat-card">
+                                <div className="stat-value">{totalHours.toFixed(2)}</div>
+                                <div className="stat-label">Total Hours</div>
+                            </div>
+                            <div className="stat-card">
+                                <div className="stat-value">{filteredEntries.length}</div>
+                                <div className="stat-label">Entries</div>
+                            </div>
+                        </div>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', gap: '8px', marginBottom: '8px' }}>
+                            {weekDays.map(day => (
+                                <div key={day} style={{ textAlign: 'center', fontWeight: 600, color: '#718096', padding: '8px' }}>
+                                    {day}
+                                </div>
+                            ))}
+                        </div>
+                        <div className="calendar-grid monthly">
+                            {days.map((day, idx) => {
+                                const dayEntries = getEntriesForDateRange(allEntries, day, day);
+                                const dayTotal = dayEntries.reduce((sum, e) => sum + (e.hours || 0), 0);
+                                const isToday = formatDate(day) === formatDate(new Date());
+                                const isCurrentMonth = day >= firstDay && day <= lastDay;
+                                
+                                return (
+                                    <div 
+                                        key={idx} 
+                                        className={`calendar-day ${isToday ? 'today' : ''}`}
+                                        style={{ opacity: isCurrentMonth ? 1 : 0.3 }}
+                                        onClick={() => {
+                                            if (isCurrentMonth) {
+                                                setSelectedDate(day);
+                                                setCalendarView('daily');
+                                            }
+                                        }}
+                                    >
+                                        <div className="calendar-day-number">{day.getDate()}</div>
+                                        {dayTotal > 0 && (
+                                            <div style={{ 
+                                                fontSize: '0.75rem', 
+                                                fontWeight: 600, 
+                                                color: '#667eea',
+                                                marginTop: '4px'
+                                            }}>
+                                                {dayTotal.toFixed(1)}h
+                                            </div>
+                                        )}
+                                        {dayEntries.length > 0 && (
+                                            <div style={{ 
+                                                display: 'flex', 
+                                                gap: '2px', 
+                                                marginTop: '4px',
+                                                flexWrap: 'wrap'
+                                            }}>
+                                                {dayEntries.slice(0, 2).map(entry => (
+                                                    <div 
+                                                        key={entry.id}
+                                                        style={{
+                                                            width: '8px',
+                                                            height: '8px',
+                                                            borderRadius: '50%',
+                                                            backgroundColor: entry.goalColor
+                                                        }}
+                                                        title={`${entry.goalName}: ${entry.hours.toFixed(1)}h`}
+                                                    />
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                );
+            };
+
+            return (
+                <div className="calendar-container">
+                    <div className="calendar-header">
+                        <div className="calendar-nav">
+                            <button className="calendar-nav-btn" onClick={() => navigateDate(-1)}>← Prev</button>
+                            <button className="calendar-nav-btn" onClick={goToToday}>Today</button>
+                            <button className="calendar-nav-btn" onClick={() => navigateDate(1)}>Next →</button>
+                            <div style={{ marginLeft: '16px', fontWeight: 600, color: '#2d3748' }}>
+                                {calendarView === 'daily' && formatDateForDisplay(selectedDate)}
+                                {calendarView === 'weekly' && `Week of ${formatDateForDisplay(getWeekRange(selectedDate).start)}`}
+                                {calendarView === 'monthly' && selectedDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+                            </div>
+                        </div>
+                        <div className="calendar-view-switcher">
+                            <button 
+                                className={`view-btn ${calendarView === 'daily' ? 'active' : ''}`}
+                                onClick={() => setCalendarView('daily')}
+                            >
+                                Daily
+                            </button>
+                            <button 
+                                className={`view-btn ${calendarView === 'weekly' ? 'active' : ''}`}
+                                onClick={() => setCalendarView('weekly')}
+                            >
+                                Weekly
+                            </button>
+                            <button 
+                                className={`view-btn ${calendarView === 'monthly' ? 'active' : ''}`}
+                                onClick={() => setCalendarView('monthly')}
+                            >
+                                Monthly
+                            </button>
+                        </div>
+                    </div>
+                    {calendarView === 'daily' && renderDailyView()}
+                    {calendarView === 'weekly' && renderWeeklyView()}
+                    {calendarView === 'monthly' && renderMonthlyView()}
+                </div>
+            );
+        }
+
+        // Data Migration & Utility Functions
+        const DATA_VERSION = '2.1.0';
+        const DATA_SCHEMA = 'timestamped';
+
+        function formatDate(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        function generateEntryId() {
+            return `entry-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+        }
+
+        function calculateTotalHours(entries) {
+            if (!Array.isArray(entries)) return 0;
+            return entries.reduce((sum, entry) => sum + (entry.hours || 0), 0);
+        }
+
+        function migrateData(oldData) {
+            // Check if data is already migrated
+            if (oldData && oldData.version === DATA_VERSION && oldData.schema === DATA_SCHEMA) {
+                return oldData;
+            }
+
+            // Handle old format (array of goals)
+            let goals = [];
+            if (Array.isArray(oldData)) {
+                goals = oldData;
+            } else if (oldData && Array.isArray(oldData.goals)) {
+                goals = oldData.goals;
+            } else {
+                goals = DEFAULT_GOAL;
+            }
+
+            // Migrate each goal
+            const migratedGoals = goals.map(goal => {
+                const existingHours = goal.hours || 0;
+                const existingEntries = Array.isArray(goal.entries) ? goal.entries : [];
+                
+                // If goal has hours but no entries, create a legacy entry
+                if (existingHours > 0 && existingEntries.length === 0) {
+                    const now = Date.now();
+                    const legacyEntry = {
+                        id: generateEntryId(),
+                        timestamp: now,
+                        date: formatDate(new Date(now)),
+                        hours: existingHours,
+                        source: 'manual',
+                        notes: ''
+                    };
+                    existingEntries.push(legacyEntry);
+                }
+
+                return {
+                    ...goal,
+                    hours: existingHours, // Keep for backward compatibility
+                    totalHours: calculateTotalHours(existingEntries) || existingHours,
+                    entries: existingEntries,
+                    milestones: Array.isArray(goal.milestones) 
+                        ? goal.milestones.map(m => typeof m === 'string' ? parseFloat(m) : m).filter(m => !isNaN(m) && m > 0)
+                        : []
+                };
+            });
+
+            return {
+                version: DATA_VERSION,
+                schema: DATA_SCHEMA,
+                createdAt: oldData?.createdAt || Date.now(),
+                lastModified: Date.now(),
+                goals: migratedGoals,
+                settings: oldData?.settings || {
+                    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                    dateFormat: 'YYYY-MM-DD',
+                    defaultView: 'daily'
+                }
+            };
+        }
+
+        function ensureDataVersion(data) {
+            try {
+                if (!data) {
+                    return migrateData(DEFAULT_GOAL);
+                }
+                return migrateData(data);
+            } catch (error) {
+                console.error('Error ensuring data version:', error);
+                return migrateData(DEFAULT_GOAL);
+            }
+        }
+
+        function getEntriesForDateRange(entries, startDate, endDate, goalId = null) {
+            if (!Array.isArray(entries)) return [];
+            
+            const start = new Date(startDate);
+            start.setHours(0, 0, 0, 0);
+            const end = new Date(endDate);
+            end.setHours(23, 59, 59, 999);
+
+            return entries.filter(entry => {
+                const entryDate = new Date(entry.timestamp);
+                const matchesDate = entryDate >= start && entryDate <= end;
+                const matchesGoal = goalId === null || entry.goalId === goalId;
+                return matchesDate && matchesGoal;
+            });
+        }
+
+        function groupEntriesByDate(entries) {
+            const grouped = {};
+            entries.forEach(entry => {
+                const date = entry.date || formatDate(new Date(entry.timestamp));
+                if (!grouped[date]) {
+                    grouped[date] = [];
+                }
+                grouped[date].push(entry);
+            });
+            return grouped;
+        }
+
+        function getWeekRange(date) {
+            const d = new Date(date);
+            const day = d.getDay();
+            const diff = d.getDate() - day + (day === 0 ? -6 : 1); // Adjust to Monday
+            const monday = new Date(d.setDate(diff));
+            monday.setHours(0, 0, 0, 0);
+            const sunday = new Date(monday);
+            sunday.setDate(sunday.getDate() + 6);
+            sunday.setHours(23, 59, 59, 999);
+            return { start: monday, end: sunday };
+        }
+
+        function getMonthRange(date) {
+            const d = new Date(date);
+            const start = new Date(d.getFullYear(), d.getMonth(), 1);
+            start.setHours(0, 0, 0, 0);
+            const end = new Date(d.getFullYear(), d.getMonth() + 1, 0);
+            end.setHours(23, 59, 59, 999);
+            return { start, end };
+        }
+
+        function formatDateForDisplay(date) {
+            return date.toLocaleDateString('en-US', { 
+                weekday: 'short', 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric' 
+            });
+        }
+
+        function formatElapsedTime(milliseconds) {
+            const totalSeconds = Math.floor(milliseconds / 1000);
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+            
+            if (hours > 0) {
+                return `${hours}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }
+            return `${minutes}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        function validateImportedData(data) {
+            if (!data) return false;
+            if (data.version && data.schema && Array.isArray(data.goals)) {
+                return true;
+            }
+            if (Array.isArray(data)) {
+                return true; // Old format
+            }
+            return false;
+        }
+
         function App() {
-            const [goals, setGoals] = useState(() => {
+            const [appData, setAppData] = useState(() => {
                 try {
                     const saved = localStorage.getItem('goals');
-                    const loadedGoals = saved ? JSON.parse(saved) : DEFAULT_GOAL;
-                    return loadedGoals.map(g => ({
-                        ...g,
-                        milestones: Array.isArray(g.milestones) 
-                            ? g.milestones.map(m => typeof m === 'string' ? parseFloat(m) : m).filter(m => !isNaN(m) && m > 0)
-                            : []
-                    }));
+                    const parsed = saved ? JSON.parse(saved) : null;
+                    return ensureDataVersion(parsed);
                 } catch (error) {
-                    console.error('Error loading goals:', error);
-                    return DEFAULT_GOAL.map(g => ({ ...g, milestones: [] }));
+                    console.error('Error loading data:', error);
+                    return ensureDataVersion(null);
                 }
             });
-            
+
+            const [goals, setGoals] = useState(() => appData.goals || []);
             const [activeGoal, setActiveGoal] = useState(null);
             const [editingGoalId, setEditingGoalId] = useState(null);
             const [editingGoalOriginalName, setEditingGoalOriginalName] = useState(null);
@@ -776,19 +1510,103 @@
             const [activeTab, setActiveTab] = useState('activities');
             const [emojiPickerGoalId, setEmojiPickerGoalId] = useState(null);
             const [selectedCategory, setSelectedCategory] = useState('😀');
+            const [activeTimers, setActiveTimers] = useState({});
+            const [calendarView, setCalendarView] = useState('daily');
+            const [selectedDate, setSelectedDate] = useState(new Date());
+            const [currentTime, setCurrentTime] = useState(new Date());
             const settingsMenuRefs = useRef({});
             const chartInstanceRef = useRef(null);
+            const timerIntervalRef = useRef(null);
 
-            const addTime = (goalId, hours) => {
+            const addTimeEntry = (goalId, hours, source = 'manual', startTime = null, endTime = null) => {
                 const timeToAdd = parseFloat(hours) || 0;
                 if (timeToAdd > 0) {
-                    setGoals(goals.map(g => 
-                        g.id === goalId ? { ...g, hours: g.hours + timeToAdd } : g
-                    ));
+                    const now = Date.now();
+                    const entry = {
+                        id: generateEntryId(),
+                        timestamp: now,
+                        date: formatDate(new Date(now)),
+                        hours: timeToAdd,
+                        source: source,
+                        startTime: startTime || (source === 'timer' ? startTime : null),
+                        endTime: endTime || (source === 'timer' ? endTime : null),
+                        notes: ''
+                    };
+
+                    setGoals(prevGoals => {
+                        return prevGoals.map(g => {
+                            if (g.id === goalId) {
+                                const newEntries = [...(g.entries || []), entry];
+                                const totalHours = calculateTotalHours(newEntries);
+                                return {
+                                    ...g,
+                                    entries: newEntries,
+                                    hours: totalHours,
+                                    totalHours: totalHours
+                                };
+                            }
+                            return g;
+                        });
+                    });
+
                     setActiveGoal(goalId);
                     setTimeout(() => setActiveGoal(null), 300);
                     setTimeInputs({ ...timeInputs, [goalId]: '' });
                 }
+            };
+
+            const deleteTimeEntry = (goalId, entryId) => {
+                setGoals(prevGoals => {
+                    return prevGoals.map(g => {
+                        if (g.id === goalId) {
+                            const newEntries = (g.entries || []).filter(e => e.id !== entryId);
+                            const totalHours = calculateTotalHours(newEntries);
+                            return {
+                                ...g,
+                                entries: newEntries,
+                                hours: totalHours,
+                                totalHours: totalHours
+                            };
+                        }
+                        return g;
+                    });
+                });
+            };
+
+            const addTime = (goalId, hours) => {
+                addTimeEntry(goalId, hours, 'manual');
+            };
+
+            const startTimer = (goalId) => {
+                const startTimestamp = Date.now();
+                setActiveTimers(prev => ({
+                    ...prev,
+                    [goalId]: startTimestamp
+                }));
+            };
+
+            const stopTimer = (goalId) => {
+                const startTimestamp = activeTimers[goalId];
+                if (startTimestamp) {
+                    const endTimestamp = Date.now();
+                    const duration = (endTimestamp - startTimestamp) / (1000 * 60 * 60); // Convert to hours
+                    
+                    if (duration > 0) {
+                        addTimeEntry(goalId, duration, 'timer', startTimestamp, endTimestamp);
+                    }
+                    
+                    setActiveTimers(prev => {
+                        const newTimers = { ...prev };
+                        delete newTimers[goalId];
+                        return newTimers;
+                    });
+                }
+            };
+
+            const getElapsedTime = (goalId) => {
+                const startTimestamp = activeTimers[goalId];
+                if (!startTimestamp) return 0;
+                return Date.now() - startTimestamp;
             };
 
             const addGoal = () => {
@@ -801,6 +1619,8 @@
                     emoji: '⭐',
                     color: COLOR_PALETTE[colorIndex],
                     hours: 0,
+                    totalHours: 0,
+                    entries: [],
                     milestones: []
                 };
                 setGoals([...goals, newGoal]);
@@ -985,9 +1805,36 @@
             };
 
             const resetData = () => {
-                if (confirm('Reset all progress?')) {
-                    setGoals(goals.map(g => ({ ...g, hours: 0 })));
+                if (confirm('Reset all progress? This will clear all time entries.')) {
+                    setGoals(goals.map(g => ({ 
+                        ...g, 
+                        hours: 0, 
+                        totalHours: 0,
+                        entries: []
+                    })));
                 }
+            };
+
+            const exportData = () => {
+                const dataToExport = {
+                    version: DATA_VERSION,
+                    schema: DATA_SCHEMA,
+                    createdAt: appData.createdAt || Date.now(),
+                    lastModified: Date.now(),
+                    goals: goals,
+                    settings: appData.settings || {
+                        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                        dateFormat: 'YYYY-MM-DD',
+                        defaultView: 'daily'
+                    }
+                };
+                const data = JSON.stringify(dataToExport, null, 2);
+                const blob = new Blob([data], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `goal-tracker-data-${formatDate(new Date())}.json`;
+                a.click();
             };
 
             const importData = () => {
@@ -1001,11 +1848,13 @@
                         reader.onload = (event) => {
                             try {
                                 const imported = JSON.parse(event.target.result);
-                                if (Array.isArray(imported)) {
-                                    setGoals(imported);
+                                if (validateImportedData(imported)) {
+                                    const migrated = ensureDataVersion(imported);
+                                    setGoals(migrated.goals);
+                                    setAppData(migrated);
                                     alert('Data imported successfully!');
                                 } else {
-                                    alert('Invalid data format. Expected an array of goals.');
+                                    alert('Invalid data format. Please check the file.');
                                 }
                             } catch (error) {
                                 alert('Error importing data: ' + error.message);
@@ -1038,7 +1887,7 @@
                     data: {
                         labels: goals.map(g => g.name),
                         datasets: [{
-                            data: goals.map(g => g.hours || 0.1),
+                            data: goals.map(g => (g.totalHours || g.hours || 0) || 0.1),
                             backgroundColor: goals.map(g => g.color),
                             borderWidth: 0,
                         }]
@@ -1062,7 +1911,7 @@
                                     label: function(context) {
                                         const hours = context.parsed;
                                         const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                        const percentage = ((hours / total) * 100).toFixed(1);
+                                        const percentage = total > 0 ? ((hours / total) * 100).toFixed(1) : 0;
                                         return `${context.label}: ${hours}h (${percentage}%)`;
                                     }
                                 }
@@ -1078,18 +1927,49 @@
                 chartInstanceRef.current = newChart;
             };
 
-            // Debug: Log what's in localStorage on initial load
+            // Timer update effect
             useEffect(() => {
-                const saved = localStorage.getItem('goals');
-                console.log('=== APP LOAD DEBUG ===');
-                console.log('localStorage data:', saved);
-                console.log('Parsed goals:', saved ? JSON.parse(saved) : 'No data found');
-                console.log('Current goals state:', goals);
-                console.log('=====================');
-            }, []); // Only run once on mount
+                if (Object.keys(activeTimers).length > 0) {
+                    timerIntervalRef.current = setInterval(() => {
+                        setCurrentTime(new Date());
+                    }, 1000);
+                    return () => {
+                        if (timerIntervalRef.current) {
+                            clearInterval(timerIntervalRef.current);
+                        }
+                    };
+                } else {
+                    if (timerIntervalRef.current) {
+                        clearInterval(timerIntervalRef.current);
+                        timerIntervalRef.current = null;
+                    }
+                }
+            }, [activeTimers]);
 
+            // Current time update for display
             useEffect(() => {
-                localStorage.setItem('goals', JSON.stringify(goals));
+                const interval = setInterval(() => {
+                    setCurrentTime(new Date());
+                }, 1000);
+                return () => clearInterval(interval);
+            }, []);
+
+            // Data persistence
+            useEffect(() => {
+                const dataToSave = {
+                    version: DATA_VERSION,
+                    schema: DATA_SCHEMA,
+                    createdAt: appData.createdAt || Date.now(),
+                    lastModified: Date.now(),
+                    goals: goals,
+                    settings: appData.settings || {
+                        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+                        dateFormat: 'YYYY-MM-DD',
+                        defaultView: 'daily'
+                    }
+                };
+                localStorage.setItem('goals', JSON.stringify(dataToSave));
+                setAppData(dataToSave);
                 updateChart();
                 
                 return () => {
@@ -1100,7 +1980,7 @@
                 };
             }, [goals]);
 
-            const totalHours = goals.reduce((sum, g) => sum + g.hours, 0);
+            const totalHours = goals.reduce((sum, g) => sum + (g.totalHours || g.hours || 0), 0);
 
             return (
                 <div className="container">
@@ -1116,6 +1996,12 @@
                                 📊 Activity Time Tracking
                             </button>
                             <button 
+                                className={`tab ${activeTab === 'calendar' ? 'active' : ''}`}
+                                onClick={() => setActiveTab('calendar')}
+                            >
+                                📅 Calendar View
+                            </button>
+                            <button 
                                 className={`tab ${activeTab === 'goals' ? 'active' : ''}`}
                                 onClick={() => setActiveTab('goals')}
                             >
@@ -1129,15 +2015,7 @@
                             <button className="control-btn" onClick={resetData}>
                                 🔄 Reset All
                             </button>
-                            <button className="control-btn" onClick={() => {
-                                const data = JSON.stringify(goals, null, 2);
-                                const blob = new Blob([data], { type: 'application/json' });
-                                const url = URL.createObjectURL(blob);
-                                const a = document.createElement('a');
-                                a.href = url;
-                                a.download = 'goal-tracker-data.json';
-                                a.click();
-                            }}>
+                            <button className="control-btn" onClick={exportData}>
                                 💾 Export Data
                             </button>
                             <button className="control-btn" onClick={importData}>
@@ -1255,9 +2133,33 @@
                                             )}
                                         </div>
                                     </div>
-                                    <div className="goal-time">{goal.hours.toFixed(2)}h</div>
+                                    <div className="goal-time">{(goal.totalHours || goal.hours || 0).toFixed(2)}h</div>
                                     <div className="goal-label">Total Time</div>
+                                    {activeTimers[goal.id] && (
+                                        <div className="timer-display">
+                                            {formatElapsedTime(getElapsedTime(goal.id))}
+                                        </div>
+                                    )}
                                     <div className="time-input-container">
+                                        {activeTimers[goal.id] ? (
+                                            <div className="timer-controls">
+                                                <button 
+                                                    className="timer-btn stop"
+                                                    onClick={() => stopTimer(goal.id)}
+                                                >
+                                                    ⏹ Stop Timer
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            <div className="timer-controls">
+                                                <button 
+                                                    className="timer-btn start"
+                                                    onClick={() => startTimer(goal.id)}
+                                                >
+                                                    ▶ Start Timer
+                                                </button>
+                                            </div>
+                                        )}
                                         <input
                                             type="number"
                                             className="time-input"
@@ -1284,7 +2186,8 @@
                                             <div className="milestones-stars">
                                                 {goal.milestones.map((milestone, index) => {
                                                     const milestoneNum = typeof milestone === 'string' ? parseFloat(milestone) : Number(milestone);
-                                                    const reached = !isNaN(milestoneNum) && milestoneNum > 0 && goal.hours >= milestoneNum;
+                                                    const currentHours = goal.totalHours || goal.hours || 0;
+                                                    const reached = !isNaN(milestoneNum) && milestoneNum > 0 && currentHours >= milestoneNum;
                                                     return (
                                                         <span 
                                                             key={`${goal.id}-milestone-${index}`}
@@ -1316,6 +2219,17 @@
                                 </div>
                             )}
                         </div>
+                    </div>
+
+                    <div className={`tab-content ${activeTab === 'calendar' ? 'active' : ''}`}>
+                        <CalendarView 
+                            goals={goals}
+                            calendarView={calendarView}
+                            setCalendarView={setCalendarView}
+                            selectedDate={selectedDate}
+                            setSelectedDate={setSelectedDate}
+                            deleteTimeEntry={deleteTimeEntry}
+                        />
                     </div>
 
                     <div className={`tab-content ${activeTab === 'goals' ? 'active' : ''}`}>
