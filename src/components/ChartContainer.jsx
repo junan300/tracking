@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useCallback } from 'react';
 import { Chart, registerables } from 'chart.js';
 
 Chart.register(...registerables);
@@ -7,7 +7,7 @@ export default function ChartContainer({ goals, totalHours }) {
     const chartInstanceRef = useRef(null);
     const canvasRef = useRef(null);
 
-    const updateChart = () => {
+    const updateChart = useCallback(() => {
         if (!canvasRef.current) return;
 
         // Check if dark mode is active
@@ -70,7 +70,7 @@ export default function ChartContainer({ goals, totalHours }) {
         });
 
         chartInstanceRef.current = newChart;
-    };
+    }, [goals]);
 
     useEffect(() => {
         updateChart();
@@ -81,13 +81,23 @@ export default function ChartContainer({ goals, totalHours }) {
                 chartInstanceRef.current = null;
             }
         };
-    }, [goals]);
+    }, [updateChart]);
 
     // Update chart when dark mode changes
     useEffect(() => {
         const observer = new MutationObserver(() => {
-            if (chartInstanceRef.current) {
-                updateChart();
+            if (chartInstanceRef.current && canvasRef.current) {
+                // Only update legend color, don't recreate entire chart
+                const isDarkMode = document.documentElement.classList.contains('dark-mode');
+                const legendColor = isDarkMode ? '#a0aec0' : '#4a5568';
+                
+                if (chartInstanceRef.current.options?.plugins?.legend?.labels) {
+                    chartInstanceRef.current.options.plugins.legend.labels.color = legendColor;
+                    chartInstanceRef.current.update('none');
+                } else {
+                    // If chart structure is different, recreate it
+                    updateChart();
+                }
             }
         });
 
@@ -97,7 +107,7 @@ export default function ChartContainer({ goals, totalHours }) {
         });
 
         return () => observer.disconnect();
-    }, [goals]);
+    }, [updateChart]);
 
     return (
         <div className="chart-container">

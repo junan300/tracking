@@ -30,8 +30,13 @@ function App() {
     const [calendarView, setCalendarView] = useState('daily');
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [darkMode, setDarkMode] = useState(() => {
-        const saved = localStorage.getItem('darkMode');
-        return saved === 'true';
+        try {
+            const saved = localStorage.getItem('darkMode');
+            return saved === 'true';
+        } catch (error) {
+            console.warn('Could not access localStorage for dark mode:', error);
+            return false;
+        }
     });
     
     const emojiPickerJustOpenedRef = useRef(false);
@@ -362,7 +367,11 @@ function App() {
 
     // Dark mode persistence
     useEffect(() => {
-        localStorage.setItem('darkMode', darkMode.toString());
+        try {
+            localStorage.setItem('darkMode', darkMode.toString());
+        } catch (error) {
+            console.warn('Could not save dark mode preference:', error);
+        }
         if (darkMode) {
             document.documentElement.classList.add('dark-mode');
         } else {
@@ -423,6 +432,7 @@ function App() {
                         >
                             🔄 Reset All
                         </button>
+                    </div>
                     </div>
                 </div>
             </div>

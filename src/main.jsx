@@ -7,9 +7,13 @@ import './styles/calendar.css';
 import './styles/animations.css';
 
 // Initialize dark mode on page load
-const savedDarkMode = localStorage.getItem('darkMode');
-if (savedDarkMode === 'true') {
-    document.documentElement.classList.add('dark-mode');
+try {
+    const savedDarkMode = localStorage.getItem('darkMode');
+    if (savedDarkMode === 'true') {
+        document.documentElement.classList.add('dark-mode');
+    }
+} catch (error) {
+    console.warn('Could not access localStorage for dark mode:', error);
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(
