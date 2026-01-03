@@ -80,3 +80,4 @@ This creates an installer in the `dist` folder that you can distribute.
 
 **Version 2.1.0** - Modular structure ready for both web and desktop deployment! 🚀
 
+

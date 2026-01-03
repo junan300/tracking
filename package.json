@@ -10,7 +10,8 @@
     "electron:dev": "cross-env ELECTRON_DEV=true concurrently \"vite\" \"wait-on http://localhost:5173 && cross-env ELECTRON_DEV=true electron .\"",
     "electron:build": "vite build && electron-builder",
     "start": "npm run build && electron .",
-    "start:dev": "npm run electron:dev"
+    "start:dev": "npm run electron:dev",
+    "deploy": "npm run build && gh-pages -d dist"
   },
   "keywords": ["goals", "productivity", "tracker"],
   "author": "",
