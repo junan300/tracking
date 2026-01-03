@@ -5,6 +5,12 @@
     padding: 30px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     margin-top: 30px;
+    transition: all 0.3s ease;
+}
+
+.dark-mode .calendar-container {
+    background: #2d3748;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .calendar-header {
@@ -32,6 +38,12 @@
     color: #4a5568;
 }
 
+.dark-mode .calendar-nav-btn {
+    background: #2d3748;
+    border-color: #4a5568;
+    color: #f7fafc;
+}
+
 .calendar-nav-btn:hover {
     border-color: #667eea;
     color: #667eea;
@@ -52,6 +64,12 @@
     cursor: pointer;
     transition: all 0.3s ease;
     color: #4a5568;
+}
+
+.dark-mode .view-btn {
+    background: #2d3748;
+    border-color: #4a5568;
+    color: #f7fafc;
 }
 
 .view-btn.active {
@@ -96,6 +114,11 @@
     transition: all 0.3s ease;
 }
 
+.dark-mode .calendar-day {
+    background: #1a202c;
+    border-color: #4a5568;
+}
+
 .calendar-day:hover {
     border-color: #667eea;
     background: #f0f4ff;
@@ -111,6 +134,11 @@
     color: #2d3748;
     margin-bottom: 8px;
     font-size: 0.875rem;
+    transition: color 0.3s ease;
+}
+
+.dark-mode .calendar-day-header {
+    color: #f7fafc;
 }
 
 .calendar-day-number {
@@ -146,6 +174,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: background 0.3s ease;
+}
+
+.dark-mode .entry-item {
+    background: #1a202c;
 }
 
 .entry-item-info {
@@ -162,12 +195,22 @@
     font-size: 0.875rem;
     color: #718096;
     margin-top: 4px;
+    transition: color 0.3s ease;
+}
+
+.dark-mode .entry-item-date {
+    color: #a0aec0;
 }
 
 .entry-item-source {
     font-size: 0.75rem;
     color: #a0aec0;
     margin-top: 4px;
+    transition: color 0.3s ease;
+}
+
+.dark-mode .entry-item-source {
+    color: #718096;
 }
 
 .entry-item-delete {
@@ -189,6 +232,11 @@
     text-align: center;
     padding: 40px;
     color: #a0aec0;
+    transition: color 0.3s ease;
+}
+
+.dark-mode .calendar-empty {
+    color: #718096;
 }
 
 .calendar-stats {
@@ -203,6 +251,11 @@
     border-radius: 8px;
     padding: 16px;
     text-align: center;
+    transition: background 0.3s ease;
+}
+
+.dark-mode .stat-card {
+    background: #1a202c;
 }
 
 .stat-value {
@@ -215,5 +268,10 @@
     font-size: 0.875rem;
     color: #718096;
     margin-top: 4px;
+    transition: color 0.3s ease;
+}
+
+.dark-mode .stat-label {
+    color: #a0aec0;
 }
 

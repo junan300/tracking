@@ -7,8 +7,12 @@ export default function ChartContainer({ goals, totalHours }) {
     const chartInstanceRef = useRef(null);
     const canvasRef = useRef(null);
 
-    useEffect(() => {
+    const updateChart = () => {
         if (!canvasRef.current) return;
+
+        // Check if dark mode is active
+        const isDarkMode = document.documentElement.classList.contains('dark-mode');
+        const legendColor = isDarkMode ? '#a0aec0' : '#4a5568';
 
         // Destroy existing chart if it exists
         if (chartInstanceRef.current) {
@@ -40,6 +44,7 @@ export default function ChartContainer({ goals, totalHours }) {
                         position: 'bottom',
                         labels: {
                             padding: 20,
+                            color: legendColor,
                             font: {
                                 size: 14,
                                 family: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
@@ -65,6 +70,10 @@ export default function ChartContainer({ goals, totalHours }) {
         });
 
         chartInstanceRef.current = newChart;
+    };
+
+    useEffect(() => {
+        updateChart();
 
         return () => {
             if (chartInstanceRef.current) {
@@ -74,6 +83,22 @@ export default function ChartContainer({ goals, totalHours }) {
         };
     }, [goals]);
 
+    // Update chart when dark mode changes
+    useEffect(() => {
+        const observer = new MutationObserver(() => {
+            if (chartInstanceRef.current) {
+                updateChart();
+            }
+        });
+
+        observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['class']
+        });
+
+        return () => observer.disconnect();
+    }, [goals]);
+
     return (
         <div className="chart-container">
             <h2 className="chart-title">📊 Time Distribution</h2>
@@ -81,8 +106,8 @@ export default function ChartContainer({ goals, totalHours }) {
                 <canvas ref={canvasRef} id="progressChart"></canvas>
             </div>
             {totalHours > 0 && (
-                <div style={{ textAlign: 'center', marginTop: '20px', color: '#718096' }}>
-                    Total tracked: <strong style={{ color: '#667eea' }}>{totalHours.toFixed(2)} hours</strong>
+                <div className="chart-total">
+                    Total tracked: <strong className="chart-total-value">{totalHours.toFixed(2)} hours</strong>
                 </div>
             )}
         </div>

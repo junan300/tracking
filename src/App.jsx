@@ -29,6 +29,10 @@ function App() {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [calendarView, setCalendarView] = useState('daily');
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [darkMode, setDarkMode] = useState(() => {
+        const saved = localStorage.getItem('darkMode');
+        return saved === 'true';
+    });
     
     const emojiPickerJustOpenedRef = useRef(false);
     const isOpeningRef = useRef(false);
@@ -356,6 +360,16 @@ function App() {
         }
     }, []);
 
+    // Dark mode persistence
+    useEffect(() => {
+        localStorage.setItem('darkMode', darkMode.toString());
+        if (darkMode) {
+            document.documentElement.classList.add('dark-mode');
+        } else {
+            document.documentElement.classList.remove('dark-mode');
+        }
+    }, [darkMode]);
+
     const totalHours = goals.reduce((sum, g) => sum + (g.totalHours || g.hours || 0), 0);
 
     return (
@@ -365,14 +379,22 @@ function App() {
                     <h1>⏰ Activity time tracker</h1>
                     <p className="subtitle">Track your time, achieve your goals</p>
                 </div>
-                <div className={`dropdown-container ${dropdownOpen ? 'open' : ''}`} ref={dropdownRef}>
+                <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
                     <button 
-                        className="dropdown-toggle"
-                        onClick={() => setDropdownOpen(!dropdownOpen)}
+                        className="dark-mode-toggle"
+                        onClick={() => setDarkMode(!darkMode)}
+                        title={darkMode ? 'Switch to light mode' : 'Switch to dark mode'}
                     >
-                        ⚙️ Menu
-                        <span className="dropdown-chevron">▼</span>
+                        {darkMode ? '☀️' : '🌙'}
                     </button>
+                    <div className={`dropdown-container ${dropdownOpen ? 'open' : ''}`} ref={dropdownRef}>
+                        <button 
+                            className="dropdown-toggle"
+                            onClick={() => setDropdownOpen(!dropdownOpen)}
+                        >
+                            ⚙️ Menu
+                            <span className="dropdown-chevron">▼</span>
+                        </button>
                     <div className={`dropdown-menu ${dropdownOpen ? 'open' : ''}`}>
                         <button 
                             className="dropdown-item" 
@@ -647,20 +669,14 @@ function App() {
             </div>
 
             <div className={`tab-content ${activeTab === 'goals' ? 'active' : ''}`}>
-                <div style={{ textAlign: 'center', padding: '60px 20px', color: '#718096' }}>
-                    <h2 style={{ fontSize: '1.5rem', marginBottom: '16px', color: '#2d3748' }}>🎯 Goals per Activity</h2>
-                    <p style={{ marginBottom: '32px' }}>Set specific goals for each activity and track your progress</p>
-                    <div style={{ 
-                        background: '#f7fafc', 
-                        padding: '40px', 
-                        borderRadius: '16px',
-                        maxWidth: '600px',
-                        margin: '0 auto'
-                    }}>
-                        <p style={{ fontSize: '1rem', lineHeight: '1.6' }}>
+                <div className="goals-tab-content">
+                    <h2 className="goals-tab-title">🎯 Goals per Activity</h2>
+                    <p className="goals-tab-subtitle">Set specific goals for each activity and track your progress</p>
+                    <div className="goals-tab-card">
+                        <p className="goals-tab-text">
                             This feature allows you to set goals for each activity and track the time spent towards achieving those goals.
                         </p>
-                        <p style={{ fontSize: '0.875rem', marginTop: '20px', color: '#a0aec0' }}>
+                        <p className="goals-tab-note">
                             Coming soon: Goal management for each activity
                         </p>
                     </div>

@@ -16,6 +16,11 @@
     border: 2px solid transparent;
 }
 
+.dark-mode .goal-card {
+    background: #2d3748;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
 .goal-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
@@ -24,6 +29,10 @@
 .goal-card.active {
     border-color: #667eea;
     background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+}
+
+.dark-mode .goal-card.active {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.15) 100%);
 }
 
 .goal-header {
@@ -37,11 +46,20 @@
     font-size: 1.25rem;
     font-weight: 600;
     color: #2d3748;
+    transition: color 0.3s ease;
+}
+
+.dark-mode .goal-name {
+    color: #f7fafc;
 }
 
 .goal-name.empty {
     color: #cbd5e0;
     font-style: italic;
+}
+
+.dark-mode .goal-name.empty {
+    color: #718096;
 }
 
 .goal-time {
@@ -56,6 +74,11 @@
     color: #718096;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    transition: color 0.3s ease;
+}
+
+.dark-mode .goal-label {
+    color: #a0aec0;
 }
 
 .goal-name-input {
@@ -70,6 +93,13 @@
     max-width: 200px;
     outline: none;
     min-width: 100px;
+    transition: all 0.3s ease;
+}
+
+.dark-mode .goal-name-input {
+    background: #1a202c;
+    color: #f7fafc;
+    border-color: #667eea;
 }
 
 .time-input-container {
@@ -86,7 +116,13 @@
     border-radius: 8px;
     font-size: 1rem;
     outline: none;
-    transition: border-color 0.3s ease;
+    transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease;
+}
+
+.dark-mode .time-input {
+    background: #1a202c;
+    border-color: #4a5568;
+    color: #f7fafc;
 }
 
 .time-input:focus {
@@ -133,10 +169,22 @@
     gap: 8px;
 }
 
+.dark-mode .add-goal-btn {
+    background: #2d3748;
+    border-color: #4a5568;
+    color: #a0aec0;
+}
+
 .add-goal-btn:hover {
     border-color: #667eea;
     color: #667eea;
     background: rgba(102, 126, 234, 0.05);
+}
+
+.dark-mode .add-goal-btn:hover {
+    background: rgba(102, 126, 234, 0.15);
+    border-color: #667eea;
+    color: #667eea;
 }
 
 /* Chart Container */
@@ -146,6 +194,12 @@
     padding: 30px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     margin-top: 30px;
+    transition: all 0.3s ease;
+}
+
+.dark-mode .chart-container {
+    background: #2d3748;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .chart-title {
@@ -153,6 +207,26 @@
     font-weight: 600;
     color: #2d3748;
     margin-bottom: 20px;
+    transition: color 0.3s ease;
+}
+
+.dark-mode .chart-title {
+    color: #f7fafc;
+}
+
+.chart-total {
+    text-align: center;
+    margin-top: 20px;
+    color: #718096;
+    transition: color 0.3s ease;
+}
+
+.dark-mode .chart-total {
+    color: #a0aec0;
+}
+
+.chart-total-value {
+    color: #667eea;
 }
 
 /* Buttons */
@@ -193,6 +267,12 @@
     gap: 8px;
 }
 
+.dark-mode .dropdown-toggle {
+    background: #2d3748;
+    border-color: #4a5568;
+    color: #f7fafc;
+}
+
 .dropdown-toggle:hover {
     border-color: #667eea;
     color: #667eea;
@@ -219,6 +299,13 @@
     z-index: 1000;
     display: none;
     overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.dark-mode .dropdown-menu {
+    background: #2d3748;
+    border-color: #4a5568;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
 }
 
 .dropdown-menu.open {
@@ -241,13 +328,26 @@
     gap: 8px;
 }
 
+.dark-mode .dropdown-item {
+    color: #f7fafc;
+}
+
 .dropdown-item:hover {
     background: #f7fafc;
     color: #667eea;
 }
 
+.dark-mode .dropdown-item:hover {
+    background: #374151;
+    color: #667eea;
+}
+
 .dropdown-item:not(:last-child) {
     border-bottom: 1px solid #e2e8f0;
+}
+
+.dark-mode .dropdown-item:not(:last-child) {
+    border-bottom-color: #4a5568;
 }
 
 /* Settings */
@@ -282,6 +382,12 @@
     min-width: 160px;
     z-index: 100;
     margin-top: 4px;
+    transition: all 0.3s ease;
+}
+
+.dark-mode .settings-menu {
+    background: #2d3748;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
 .settings-menu-item {
@@ -300,8 +406,17 @@
     gap: 8px;
 }
 
+.dark-mode .settings-menu-item {
+    color: #f7fafc;
+}
+
 .settings-menu-item:hover {
     background: #f7fafc;
+    color: #667eea;
+}
+
+.dark-mode .settings-menu-item:hover {
+    background: #374151;
     color: #667eea;
 }
 
@@ -353,6 +468,12 @@
     display: flex;
     flex-direction: column;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.dark-mode .emoji-picker-modal {
+    background: #2d3748;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
 }
 
 .emoji-picker-header {
@@ -366,6 +487,11 @@
     font-size: 1rem;
     font-weight: 600;
     color: #2d3748;
+    transition: color 0.3s ease;
+}
+
+.dark-mode .emoji-picker-title {
+    color: #f7fafc;
 }
 
 .emoji-picker-close {
@@ -410,6 +536,11 @@
     align-items: center;
     justify-content: center;
     aspect-ratio: 1;
+}
+
+.dark-mode .emoji-category-btn {
+    background: #1a202c;
+    border-color: #4a5568;
 }
 
 .emoji-category-btn:hover {
@@ -467,6 +598,10 @@
     transform: scale(1.2);
 }
 
+.dark-mode .emoji-picker-item:hover {
+    background: #374151;
+}
+
 .emoji-picker-item:active {
     transform: scale(1.1);
 }
@@ -510,6 +645,12 @@
     width: 400px;
     max-width: 90vw;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.dark-mode .milestones-modal {
+    background: #2d3748;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
 }
 
 .milestones-modal-header {
@@ -523,6 +664,11 @@
     font-size: 1.25rem;
     font-weight: 600;
     color: #2d3748;
+    transition: color 0.3s ease;
+}
+
+.dark-mode .milestones-modal-title {
+    color: #f7fafc;
 }
 
 .milestones-modal-close {
@@ -565,6 +711,12 @@
     color: #4a5568;
 }
 
+.dark-mode .milestone-preset-btn {
+    background: #1a202c;
+    border-color: #4a5568;
+    color: #f7fafc;
+}
+
 .milestone-preset-btn:hover {
     border-color: #667eea;
     background: #f0f4ff;
@@ -593,6 +745,11 @@
     padding: 8px;
     background: #f7fafc;
     border-radius: 6px;
+    transition: background 0.3s ease;
+}
+
+.dark-mode .milestone-item {
+    background: #1a202c;
 }
 
 .milestone-item-input {
@@ -602,6 +759,13 @@
     border-radius: 6px;
     font-size: 0.875rem;
     outline: none;
+    transition: all 0.3s ease;
+}
+
+.dark-mode .milestone-item-input {
+    background: #2d3748;
+    border-color: #4a5568;
+    color: #f7fafc;
 }
 
 .milestone-item-input:focus {
@@ -726,18 +890,34 @@
     width: 500px;
     max-width: 90vw;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.dark-mode .export-check-modal {
+    background: #2d3748;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
 }
 
 .export-check-modal h3 {
     font-size: 1.5rem;
     color: #2d3748;
     margin-bottom: 12px;
+    transition: color 0.3s ease;
+}
+
+.dark-mode .export-check-modal h3 {
+    color: #f7fafc;
 }
 
 .export-check-modal p {
     color: #4a5568;
     line-height: 1.6;
     margin-bottom: 8px;
+    transition: color 0.3s ease;
+}
+
+.dark-mode .export-check-modal p {
+    color: #a0aec0;
 }
 
 .export-check-btn {
