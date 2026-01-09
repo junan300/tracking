@@ -1,5 +1,5 @@
 import React from 'react';
-import { formatDate, formatDateForDisplay, getWeekRange, getMonthRange, getEntriesForDateRange } from '../utils/dateUtils.js';
+import { formatDate, formatDateForDisplay, getWeekRange, getMonthRange, getEntriesForDateRange, formatDateWithOrdinal } from '../utils/dateUtils.js';
 
 export default function CalendarView({ goals, calendarView, setCalendarView, selectedDate, setSelectedDate, deleteTimeEntry }) {
     const allEntries = goals.flatMap(goal => 
@@ -61,6 +61,9 @@ export default function CalendarView({ goals, calendarView, setCalendarView, sel
                         <div className="stat-value">{dayEntries.filter(e => e.source === 'timer').length}</div>
                         <div className="stat-label">Timer Sessions</div>
                     </div>
+                </div>
+                <div className="calendar-date-label">
+                    {formatDateWithOrdinal(selectedDate)}
                 </div>
                 <div className="calendar-entry-list">
                     {dayEntries.length > 0 ? (
@@ -136,6 +139,9 @@ export default function CalendarView({ goals, calendarView, setCalendarView, sel
                                     {day.toLocaleDateString('en-US', { weekday: 'short' })}
                                 </div>
                                 <div className="calendar-day-number">{day.getDate()}</div>
+                                <div className="calendar-day-date-label">
+                                    {formatDateWithOrdinal(day)}
+                                </div>
                                 <div className="calendar-day-entries">
                                     {dayEntries.slice(0, 3).map(entry => (
                                         <div 
@@ -220,6 +226,9 @@ export default function CalendarView({ goals, calendarView, setCalendarView, sel
                                 }}
                             >
                                 <div className="calendar-day-number">{day.getDate()}</div>
+                                <div className="calendar-day-date-label">
+                                    {formatDateWithOrdinal(day)}
+                                </div>
                                 {dayTotal > 0 && (
                                     <div style={{ 
                                         fontSize: '0.75rem', 

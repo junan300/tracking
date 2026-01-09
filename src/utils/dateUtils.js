@@ -63,3 +63,20 @@ export function groupEntriesByDate(entries) {
     return grouped;
 }
 
+export function formatDateWithOrdinal(date) {
+    const day = date.getDate();
+    const month = date.toLocaleDateString('en-US', { month: 'long' });
+    const year = date.getFullYear();
+    
+    // Get ordinal suffix (1st, 2nd, 3rd, 4th, etc.)
+    let suffix = 'th';
+    if (day === 1 || day === 21 || day === 31) {
+        suffix = 'st';
+    } else if (day === 2 || day === 22) {
+        suffix = 'nd';
+    } else if (day === 3 || day === 23) {
+        suffix = 'rd';
+    }
+    
+    return `${month} ${day}${suffix}, ${year}`;
+}

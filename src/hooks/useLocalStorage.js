@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { loadGoals, saveGoals } from '../utils/storage.js';
+import { useState } from 'react';
+import { loadGoals } from '../utils/storage.js';
 import { ensureDataVersion, validateImportedData } from '../utils/validation.js';
 import { createRecoveryBackup } from '../utils/storage.js';
 

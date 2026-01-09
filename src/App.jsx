@@ -5,10 +5,10 @@ import ChartContainer from './components/ChartContainer.jsx';
 import { useLocalStorage } from './hooks/useLocalStorage.js';
 import { useTimer } from './hooks/useTimer.js';
 import { DATA_VERSION, DATA_SCHEMA, DEFAULT_MILESTONES, COLOR_PALETTE } from './utils/constants.js';
-import { formatDate, formatDateForDisplay } from './utils/dateUtils.js';
-import { calculateTotalHours, generateEntryId, formatElapsedTime } from './utils/calculations.js';
+import { formatDate } from './utils/dateUtils.js';
+import { calculateTotalHours, generateEntryId } from './utils/calculations.js';
 import { validateImportedData, ensureDataVersion } from './utils/validation.js';
-import { saveGoals, exportDataToFile, confirmWithExportCheck, createRecoveryBackup } from './utils/storage.js';
+import { saveGoals, exportDataToFile, confirmWithExportCheck } from './utils/storage.js';
 
 function App() {
     const { appData, setAppData } = useLocalStorage();
@@ -78,12 +78,12 @@ function App() {
         }
     }, [emojiPickerGoalId]);
     
-    const safeSetEmojiPickerGoalId = (value) => {
+    const safeSetEmojiPickerGoalId = useCallback((value) => {
         if (value === null && isOpeningRef.current) {
             return;
         }
         setEmojiPickerGoalId(value);
-    };
+    }, []);
 
     const addTimeEntry = (goalId, hours, source = 'manual', startTime = null, endTime = null) => {
         const timeToAdd = parseFloat(hours) || 0;
