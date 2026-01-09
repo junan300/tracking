@@ -1,11 +1,14 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useRef, useCallback, useState } from 'react';
 import { Chart, registerables } from 'chart.js';
+import LineChart from './LineChart.jsx';
 
 Chart.register(...registerables);
 
 export default function ChartContainer({ goals, totalHours }) {
     const chartInstanceRef = useRef(null);
     const canvasRef = useRef(null);
+    const [chartType, setChartType] = useState('pie'); // 'pie' or 'line'
+    const [selectedGoalIds, setSelectedGoalIds] = useState('all'); // 'all' or array of goal IDs
 
     const updateChart = useCallback(() => {
         if (!canvasRef.current) return;
@@ -109,8 +112,74 @@ export default function ChartContainer({ goals, totalHours }) {
         return () => observer.disconnect();
     }, [updateChart]);
 
+    const toggleChartType = () => {
+        setChartType(prev => prev === 'pie' ? 'line' : 'pie');
+    };
+
+    const handleGoalSelection = (goalId) => {
+        if (selectedGoalIds === 'all') {
+            setSelectedGoalIds([goalId]);
+        } else if (selectedGoalIds.includes(goalId)) {
+            const newSelected = selectedGoalIds.filter(id => id !== goalId);
+            if (newSelected.length === 0) {
+                setSelectedGoalIds('all');
+            } else {
+                setSelectedGoalIds(newSelected);
+            }
+        } else {
+            setSelectedGoalIds([...selectedGoalIds, goalId]);
+        }
+    };
+
+    const selectAllGoals = () => {
+        setSelectedGoalIds('all');
+    };
+
+    if (chartType === 'line') {
+        return (
+            <div className="chart-container">
+                <div className="chart-controls">
+                    <button className="chart-toggle-btn" onClick={toggleChartType}>
+                        📊 Switch to Pie Chart
+                    </button>
+                </div>
+
+                <div className="chart-filter-controls">
+                    <div className="filter-label">Filter Activities:</div>
+                    <button
+                        className={`filter-btn ${selectedGoalIds === 'all' ? 'active' : ''}`}
+                        onClick={selectAllGoals}
+                    >
+                        All Activities
+                    </button>
+                    {goals.map(goal => (
+                        <button
+                            key={goal.id}
+                            className={`filter-btn ${selectedGoalIds !== 'all' && selectedGoalIds.includes(goal.id) ? 'active' : ''}`}
+                            onClick={() => handleGoalSelection(goal.id)}
+                            style={{
+                                borderColor: goal.color,
+                                backgroundColor: selectedGoalIds !== 'all' && selectedGoalIds.includes(goal.id) ? goal.color + '20' : 'transparent'
+                            }}
+                        >
+                            {goal.emoji} {goal.name}
+                        </button>
+                    ))}
+                </div>
+
+                <LineChart goals={goals} totalHours={totalHours} selectedGoalIds={selectedGoalIds} />
+            </div>
+        );
+    }
+
     return (
         <div className="chart-container">
+            <div className="chart-controls">
+                <button className="chart-toggle-btn" onClick={toggleChartType}>
+                    📈 Switch to Line Chart
+                </button>
+            </div>
+
             <h2 className="chart-title">📊 Time Distribution</h2>
             <div style={{ maxWidth: '500px', margin: '0 auto' }}>
                 <canvas ref={canvasRef} id="progressChart"></canvas>

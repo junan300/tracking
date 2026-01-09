@@ -229,6 +229,99 @@
     color: #667eea;
 }
 
+/* Chart Controls */
+.chart-controls {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.chart-toggle-btn {
+    padding: 12px 24px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.chart-toggle-btn:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.chart-toggle-btn:active {
+    transform: scale(0.98);
+}
+
+/* Chart Filter Controls */
+.chart-filter-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding: 16px;
+    background: #f7fafc;
+    border-radius: 8px;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.dark-mode .chart-filter-controls {
+    background: #1a202c;
+}
+
+.filter-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #4a5568;
+    transition: color 0.3s ease;
+}
+
+.dark-mode .filter-label {
+    color: #a0aec0;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    background: white;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: #4a5568;
+}
+
+.dark-mode .filter-btn {
+    background: #2d3748;
+    border-color: #4a5568;
+    color: #f7fafc;
+}
+
+.filter-btn:hover {
+    border-color: #667eea;
+    color: #667eea;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+}
+
+.filter-btn.active {
+    border-color: #667eea;
+    background: #667eea;
+    color: white;
+}
+
+.dark-mode .filter-btn.active {
+    background: #667eea;
+    border-color: #667eea;
+    color: white;
+}
+
 /* Buttons */
 .control-btn {
     padding: 10px 20px;
